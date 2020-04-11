@@ -19,8 +19,13 @@ export default class Model {
 
     // what the initial state of the inputs should be
     // your model will receive a changeInput call with this value when it is instantiated
+    // override to provide better defaults
     initialInput() {
-        return {};
+        var input = {};
+        for (var variable of this.inputVariables()) {
+            input[variable.key] = variable.range[0];
+        }
+        return input;
     }
 
     // input: object with key for each input variable

@@ -16,7 +16,7 @@
    version="1.1"
    id="svg8761"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="schematic.svg"
+   sodipodi:docname="schematic2.svg"
    inkscape:export-filename="/home/azad/Workshop/Research/COVID/Improvent/Diagrams/20200328 Improvent Circuit-2.png"
    inkscape:export-xdpi="150.009"
    inkscape:export-ydpi="150.009">
@@ -2375,15 +2375,6 @@
      id="layer1"
      transform="translate(162.17783,140.76611)"
      style="display:inline">
-    <rect
-       style="opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.22921228;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:1.22921212, 4.91684843;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect2329"
-       width="568.16162"
-       height="512.31134"
-       x="-277.49667"
-       y="-140.76611"
-       inkscape:export-xdpi="150.009"
-       inkscape:export-ydpi="150.009" />
     <path
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"

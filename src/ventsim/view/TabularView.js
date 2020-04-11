@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-
+import Control from './controls/Control';
+import VariableName from './controls/VariableName';
 
 function TabularRow(props) {
+    
     return <tr>
-        {props.inputs.map((i) => <td key={i}>{props.input ? props.input[i] : null}</td>)}
-        {props.outputs.map((i) => <td key={i}>{props.output ? props.output[i] : null}</td>)}
+        {props.inputs.map((i) => <td key={i}>{props.input ? (props.input[i.key] + (i.unit ? (" " + i.unit) : "")) : null}</td>)}
+        {props.outputs.map((i) => <td key={i}>{props.output ? (props.output[i.key] + (i.unit ? (" " + i.unit) : "")) : null}</td>)}
     </tr>;
 }
 
@@ -31,20 +33,22 @@ function TabularView(props) {
         }
     }
     
-    return <div>
+    return <div className="tabular-view">
+        <h1>Log</h1>
         <table>
             <thead>
                 <tr><th colspan={inputs.length}>Input</th><th colspan={outputs.length}>Output</th></tr>
                 <tr>
-                    {inputs.map((i) => <th key={i}>{i}</th>)}
-                    {outputs.map((i) => <th key={i}>{i}</th>)}
+                    {inputs.map((i) => <th key={i.key}><VariableName variable={i} /></th>)}
+                    {outputs.map((i) => <th key={i.key}><VariableName variable={i} /></th>)}
                 </tr>
             </thead>
             <tbody>{rows}</tbody>
         </table>
-        <div className="tabular-controls">
+        <h1>Inputs</h1>
+        <div className="control-container tabular-controls">
             {props.inputs.map((input) => {
-                return <input type="text" value={currentInput[input]} onChange={(e) => {
+                return <Control variable={input} mutable={true} value={currentInput[input.key]} onChange={(e) => {
                     currentInput[input] = e.target.value;
                     props.onChangeInput(currentInput);
                 }} />

@@ -1,38 +1,183 @@
-.App {
+.mode-switch {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  border-bottom: 1px solid #eeeeee;
+  border-left: 1px solid #eeeeee;
+  border-bottom-left-radius: 3px;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.mode-switch div {
+  border-right: 1px solid #eeeeee;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+
+.mode-switch div:hover {
+  background-color: #eeeeee;
+}
+
+.mode-switch div:last-child {
+  border-right: none;
+}
+
+svg {
+  width: 90vh;
+  height: 90vh;
+}
+
+.tabular-view {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px 20px 20px 20px;
+}
+
+h1 {
+  font-size: 20pt;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 30px;
+  font-size: 10pt;
+}
+
+table, tr, td, th {
+  border: 1px solid #eeeeee;
+}
+
+td, th {
+  padding: 5px;
+}
+
+.patient {
+  font-size: 70%;
+}
+
+
+/* Controls */
+.control-container {
+  border: 1px solid #333333;
+  display: flex;
+  flex-direction: row;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+
+
+.control {
+  background-color: #eeeeee;
+  display: flex;
+  flex: 0;
+  flex-direction: column;
+  width: 150px;
+  padding: 10px;
+  font-size: 13pt;
+  align-items: center;
+}
+
+.control .key {
+  text-align: center;
+  height: 40px;
+}
+
+.control .value {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  align-self: stretch;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.control .value input {
+  font-size: 30pt;
+  flex: 1;
+  background: none;
+  border: none;
+  display: block;
+  width: 0;
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.control .unit {
+  
+  font-weight: bold;
+  font-size: 10pt;
+  height: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+.dial {
+  width: 75px;
+  height: 75px;
+  border-top: 1px solid #333333;
+  position: relative;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.dial .min, .dial .max {
+  position: absolute;
+  bottom: 0;
+  font-size: 9pt;
+}
+
+.dial .max {
+  right: 0;
+}
+
+.dial .dial-control {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  transform: rotate(0deg); /* 140 deg */
+  cursor: col-resize;
+
+  width: 50px;
+  height: 50px;
+  background-image: url(/knob.png);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+
+/* popper */
+
+.variable-name-tooltip {
+  background: #333;
   color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  font-size: 13pt;
+  border-radius: 4px;
+  max-width: 400px;
+  display: none;
 }
 
-.App-link {
-  color: #61dafb;
+.variable-name-tooltip[data-show] {
+  display: block;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.arrow,
+.arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  z-index: -1;
+}
+
+.arrow::before {
+  content: '';
+  transform: rotate(45deg);
+  background: #333;
 }
