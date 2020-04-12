@@ -32,8 +32,8 @@
 }
 
 svg {
-  width: 90vh;
-  height: 90vh;
+  width: 99vw;
+  height: 99vh;
 }
 
 .tabular-view {
@@ -87,16 +87,14 @@ tr:hover {
 }
 
 .patient {
-  font-size: 70%;
+  font-size: 60%;
 }
 
 
 /* Controls */
 .control-container {
-  border: 1px solid #333333;
   display: flex;
   flex-direction: row;
-  border-radius: 6px;
   overflow: hidden;
   flex-wrap: wrap;
 }
@@ -105,17 +103,21 @@ tr:hover {
 .control {
   background-color: #eeeeee;
   display: flex;
-  flex: 0;
   flex-direction: column;
-  width: 150px;
-  padding: 10px;
+  width: 80px;
+  padding: 5px 10px;
   font-size: 13pt;
-  align-items: center;
+  align-items: stretch;
+}
+
+.control.abnormal {
+  color: white;
+  background-color: red;
 }
 
 .control .key {
-  text-align: center;
-  height: 40px;
+  text-align: left;
+  height: 27px;
 }
 
 .control .value {
@@ -124,11 +126,10 @@ tr:hover {
   align-items: flex-end;
   align-self: stretch;
   font-weight: bold;
-  margin-top: 5px;
 }
 
 .control .value input {
-  font-size: 30pt;
+  font-size: 20pt;
   flex: 1;
   background: none;
   border: none;
@@ -137,31 +138,56 @@ tr:hover {
   margin: 0;
   padding: 0;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
+}
+
+.control .value input:disabled {
+  color: black;
 }
 
 .control .value.invalid input {
   color: red;
 }
 
+.control.abnormal .value input {
+  color: white;
+}
+
 .control .unit {
   
   font-weight: bold;
-  font-size: 10pt;
+  font-size: 8pt;
   height: 20px;
+  text-align: right;
+  margin-top: -6px;
 }
 
 .patient-1 {
-  background-color: #E3DC95;
+  background-color: rgb(248, 245, 214);
 }
 
 .patient-2 {
-  background-color: #A3C4BC;
+  background-color: rgb(230, 245, 241);
+}
+
+.schematic-container {
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.schematic-container .control-container {
+
+  border: 1px solid #a3a3a3;
+  border-radius: 6px;
+  max-width: 322px; /* ugly hack for flex wrap */
 }
 
 .dial {
-  width: 75px;
-  height: 75px;
+  width: 60px;
+  height: 60px;
   border-top: 1px solid #333333;
   position: relative;
 }
@@ -169,7 +195,8 @@ tr:hover {
 .dial .min, .dial .max {
   position: absolute;
   bottom: 0;
-  font-size: 9pt;
+  font-size: 8pt;
+  font-weight: bold;
 }
 
 .dial .max {
@@ -178,13 +205,13 @@ tr:hover {
 
 .dial .dial-control {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: 7px;
+  left: 10px;
   transform: rotate(0deg); /* 140 deg */
   cursor: col-resize;
 
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-image: url(/knob.png);
   background-size: cover;
   background-position: center;
@@ -203,6 +230,24 @@ tr:hover {
   border-radius: 4px;
   max-width: 400px;
   display: none;
+  z-index: 100;
+}
+
+
+.variable-name-tooltip[data-popper-placement^='top'] > #arrow {
+  bottom: -4px;
+}
+
+.variable-name-tooltip[data-popper-placement^='bottom'] > #arrow {
+  top: -4px;
+}
+
+.variable-name-tooltip[data-popper-placement^='left'] > #arrow {
+  right: -4px;
+}
+
+.variable-name-tooltip[data-popper-placement^='right'] > #arrow {
+  left: -4px;
 }
 
 .variable-name-tooltip[data-show] {

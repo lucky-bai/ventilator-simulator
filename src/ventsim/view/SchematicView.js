@@ -38,21 +38,59 @@ export default class SchematicView extends React.Component {
             <div className="svg" dangerouslySetInnerHTML={svgData} />
 
             {this.props.inputs.map((n) => <ControlPortal 
+                key={n.key}
                 variable={n}
                 mutable={true}
                 value={currentInput[n.key]}
-                elm={this.controlElmsInput[n.key]} />)}
+                elm={this.controlElmsInput[n.key]}
+                onChange={(v) => {
+                    currentInput[n.key] = v;
+                    this.props.onChangeInput(currentInput);
+                }} />)}
             {this.props.outputs.map((n) => <ControlPortal 
+                key={n.key}
                 variable={n}
                 mutable={false}
                 value={currentOutput[n.key]}
                 elm={this.controlElmsOutput[n.key]} />)}
 
-            <div className="control-container extra-controls" ref={(e) => this.extraControlsElm = e} />
+            <div className="container-container" ref={(e) => this.containerContainer = e} />
         </div>;
     }
 
     componentDidUpdate() {
         // find svg todo
+        let descs = document.querySelectorAll("desc");
+
+        for (var desc of descs) {
+            // Create container element
+            let elm = document.createElement("div");
+            this.containerContainer.appendChild(elm);
+
+            elm.className = "schematic-container";
+
+            let controlContaner = document.createElement("div");
+            controlContaner.className = "control-container";
+            elm.appendChild(controlContaner);
+            
+            let rect = desc.parentElement.getBoundingClientRect();
+            elm.style.top = rect.top + "px";
+            elm.style.left = rect.left + "px";
+            elm.style.width = rect.width + "px";
+            elm.style.height = rect.height + "px";
+
+            let vars = desc.textContent.split(",");
+            for (var v of vars) {
+                v = v.trim();
+                if (v in this.controlElmsInput) {
+                    controlContaner.appendChild(this.controlElmsInput[v]);
+                }
+                if (v in this.controlElmsOutput) {
+                    controlContaner.appendChild(this.controlElmsOutput[v]);
+                }
+            }
+
+            desc.parentElement.style.opacity = 0;
+        }
     }
 }

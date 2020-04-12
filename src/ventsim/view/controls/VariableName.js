@@ -50,7 +50,7 @@ export default class VariableName extends React.Component {
                 <div className="arrow" data-popper-arrow></div>
             </div>
             <div className="variable-name" ref={(e) => this.setUpTooltip(null, e)}>
-                { patientId ? <div className="patient">Patient {patientId}</div> : null}
+                { /* patientId ? <div className="patient">Patient {patientId}</div> : null */ }
                 <div>{splitName[0]}</div>
             </div>
         </div>

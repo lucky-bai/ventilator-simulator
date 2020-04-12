@@ -5,7 +5,7 @@ import SchematicView from './SchematicView';
 
 function View(props) {
     // mode: tabular | schematic
-    const [mode, setMode] = useState('tabular');
+    const [mode, setMode] = useState('schematic');
 
     return <div>
         <div className="mode-switch">

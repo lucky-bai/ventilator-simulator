@@ -5,8 +5,8 @@ import VariableName from './controls/VariableName';
 function TabularRow(props) {
     
     return <tr onClick={() => props.onChangeInput(props.input)} className={props.lastRow ? "current" : ""}>
-        {props.inputs.map((i) => <td key={i.key}>{props.input ? (props.input[i.key] + (i.unit ? (" " + i.unit) : "")) : null}</td>)}
-        {props.outputs.map((i) => <td key={i.key}>{props.output ? (props.output[i.key] + (i.unit ? (" " + i.unit) : "")) : null}</td>)}
+        {props.inputs.map((i) => <td key={i.key}>{props.input ? (props.input[i.key]) : null}</td>)}
+        {props.outputs.map((i) => <td key={i.key}>{props.output ? (props.output[i.key]) : null}</td>)}
     </tr>;
 }
 
@@ -54,8 +54,8 @@ function TabularView(props) {
                 <thead>
                     <tr><th colSpan={inputs.length}>Input</th><th colSpan={outputs.length}>Output</th></tr>
                     <tr>
-                        {inputs.map((i) => <th key={i.key} className={cellClass(i.key)}><VariableName variable={i} /></th>)}
-                        {outputs.map((i) => <th key={i.key} className={cellClass(i.key)}><VariableName variable={i} /></th>)}
+                        {inputs.map((i) => <th key={i.key} className={cellClass(i.key)}><VariableName variable={i} />{i.unit}</th>)}
+                        {outputs.map((i) => <th key={i.key} className={cellClass(i.key)}><VariableName variable={i} />{i.unit}</th>)}
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>
