@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import VariableName from './VariableName';
 
 
-function startDragging(initialValue, interval, range, mouseX, onChange, onCommit) {
+function startDragging(initialValue, interval, range, mouseX, mouseY, onChange, onCommit) {
 
     var value = initialValue;
 
@@ -10,12 +10,15 @@ function startDragging(initialValue, interval, range, mouseX, onChange, onCommit
     let pixels = fullDragSize / (((range[1] - range[0]) / interval));
 
     let moveListener = (e) => {
-        let diff = e.clientX - mouseX;
+        let diffX = e.clientX - mouseX;
+        let diffY = mouseY - e.clientY;
+        let diff = Math.abs(diffX) > Math.abs(diffY) ? diffX : diffY;
         if (Math.abs(diff) > pixels) {
             value = value + Math.sign(diff) * interval * Math.round(Math.abs(diff) / pixels);
             value = Math.max(range[0], Math.min(range[1], value));
             onChange(value);
             mouseX = e.clientX;
+            mouseY = e.clientY;
         }
     };
 
@@ -76,12 +79,17 @@ function Control(props) {
                 }
 
                 setTempVal(null);
+            }}
+            onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                    e.target.blur();
+                }  
             }}/>
         </div>
         <div className="unit">{variable.unit}</div>
         { mutable ? <div className="dial"
                 onMouseDown={(e) => {
-                    startDragging(value, interval, variable.range, e.clientX, setTempVal, (v) => {
+                    startDragging(value, interval, variable.range, e.clientX, e.clientY, setTempVal, (v) => {
                         if (v != props.value) {
                             props.onChange(v);
                         }

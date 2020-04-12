@@ -3268,11 +3268,11 @@
          style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.91716385px;font-family:Arial;-inkscape-font-specification:'Arial Italic';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.18594682px;stroke-opacity:1">Secondary 2</tspan></text>
     <rect
        id="rect4859"
-       width="171.02718"
+       width="223.6958"
        height="72.429665"
-       x="39.330471"
+       x="-13.33815"
        y="396.76151"
-       style="stroke-width:0.20123918">
+       style="stroke-width:0.2301489">
       <desc
          id="desc4861">pH_1,PaCO2_1,PaO2_1,HCO3_1,PIP_1,APEEP_1,VT_1,FiO2_1</desc>
     </rect>
@@ -3288,11 +3288,11 @@
     </rect>
     <rect
        id="rect4859-2-7"
-       width="166.35118"
+       width="223.65001"
        height="100.69288"
        x="240.13609"
        y="88.679085"
-       style="display:inline;stroke-width:0.23400979">
+       style="display:inline;stroke-width:0.27133483">
       <desc
          id="desc4861-4-6">PC, PEEP0, RR, IT, I:E</desc>
     </rect>
@@ -3328,11 +3328,11 @@
     </rect>
     <rect
        id="rect4859-8"
-       width="175.07863"
+       width="242.79543"
        height="70.114555"
        x="221.40816"
        y="396.76151"
-       style="display:inline;stroke-width:0.20032834">
+       style="display:inline;stroke-width:0.23590985">
       <desc
          id="desc4861-2">pH_2,PaCO2_2,PaO2_2,HCO3_2,PIP_2,APEEP_2,VT_2,FiO2_2</desc>
     </rect>

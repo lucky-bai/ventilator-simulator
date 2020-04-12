@@ -8,6 +8,7 @@ function View(props) {
     const [mode, setMode] = useState('schematic');
 
     return <div>
+        <div className="title">Cerberus Simulator</div>
         <div className="mode-switch">
             <div onClick={() => setMode('schematic')}>Schematic</div>
             <div onClick={() => setMode('tabular')}>Tabular</div>

@@ -78,6 +78,9 @@ export default class SchematicView extends React.Component {
             return;
         }
 
+        this.containerContainer.innerHTML = "";
+        
+
         // find svg todo
         let descs = document.querySelectorAll("desc");
 
