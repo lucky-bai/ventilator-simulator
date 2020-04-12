@@ -54,11 +54,30 @@ export default class SchematicView extends React.Component {
                 value={currentOutput[n.key]}
                 elm={this.controlElmsOutput[n.key]} />)}
 
-            <div className="container-container" ref={(e) => this.containerContainer = e} />
+            <div className="container-container" ref={(e) => {
+                this.containerContainer = e;
+                this.updateSvgElements();
+            }} />
         </div>;
     }
 
-    componentDidUpdate() {
+    componentWillMount() {
+        this.windowResizeListener = (e) => this.updateSvgElements();
+        window.addEventListener('resize', this.windowResizeListener);
+    }
+
+    componentWillUnmount() {
+        if (this.windowResizeListener) {
+            window.removeEventListener('resize', this.windowResizeListener);
+            this.windowResizeListener = null;
+        }
+    }
+
+    updateSvgElements() {
+        if (this.containerContainer == null) {
+            return;
+        }
+
         // find svg todo
         let descs = document.querySelectorAll("desc");
 

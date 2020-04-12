@@ -31,9 +31,15 @@
   border-right: none;
 }
 
-svg {
+.svg {
   width: 99vw;
   height: 99vh;
+  padding: 30px;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
 }
 
 .tabular-view {
@@ -131,7 +137,7 @@ tr:hover {
 .control .value input {
   font-size: 20pt;
   flex: 1;
-  background: none;
+  background-color: rgba(255, 255, 255, 0.6);
   border: none;
   display: block;
   width: 0;
@@ -142,6 +148,7 @@ tr:hover {
 }
 
 .control .value input:disabled {
+  background: none;
   color: black;
 }
 
@@ -160,6 +167,7 @@ tr:hover {
   height: 20px;
   text-align: right;
   margin-top: -6px;
+  margin-bottom: -5px;
 }
 
 .patient-1 {
@@ -180,15 +188,15 @@ tr:hover {
 
 .schematic-container .control-container {
 
-  border: 1px solid #a3a3a3;
-  border-radius: 6px;
+  border: 1px solid #a3a3a344;
+  border-radius: 0px;
   max-width: 322px; /* ugly hack for flex wrap */
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.068);
 }
 
 .dial {
   width: 60px;
   height: 60px;
-  border-top: 1px solid #333333;
   position: relative;
 }
 
@@ -216,6 +224,8 @@ tr:hover {
   background-size: cover;
   background-position: center;
   overflow: hidden;
+
+  filter: drop-shadow(0 0 3px #3535352d);
 }
 
 

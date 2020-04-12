@@ -11,7 +11,6 @@ export default class VariableName extends React.Component {
             return;
         }
 
-        
         const showEvents = ['mouseenter', 'focus'];
         const hideEvents = ['mouseleave', 'blur'];
 
@@ -46,7 +45,10 @@ export default class VariableName extends React.Component {
 
         return <div>
             <div className="variable-name-tooltip" ref={(e) => this.setUpTooltip(e)}>
-                {variable.desc}
+                <div>{variable.desc}</div>
+                {variable.range ? 
+                    <div>{this.props.input ? "" : "Normal range: "}{variable.range[0]}-{variable.range[1]} {variable.unit}</div>
+                    : null}
                 <div className="arrow" data-popper-arrow></div>
             </div>
             <div className="variable-name" ref={(e) => this.setUpTooltip(null, e)}>

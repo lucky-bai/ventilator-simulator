@@ -57,7 +57,7 @@ function Control(props) {
     let patientClass = (key) => (key.endsWith("_1") ? "patient-1" : (key.endsWith("_2") ? "patient-2" : ""));
 
     return <div className={"control " + patientClass(variable.key) + " " + (normal ? "" : "abnormal")}>
-        <div className="key"><VariableName variable={variable} /></div>
+        <div className="key"><VariableName input={mutable} variable={variable} /></div>
         <div className={"value " + (valid ? "" : "invalid")}>
             <input type="text" value={value || "0"} disabled={!mutable} onChange={(e) => {
                 setTempVal(e.target.value.replace(/[^\d.-]/g, ''));

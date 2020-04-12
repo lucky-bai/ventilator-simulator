@@ -54,7 +54,7 @@ function TabularView(props) {
                 <thead>
                     <tr><th colSpan={inputs.length}>Input</th><th colSpan={outputs.length}>Output</th></tr>
                     <tr>
-                        {inputs.map((i) => <th key={i.key} className={cellClass(i.key)}><VariableName variable={i} />{i.unit}</th>)}
+                        {inputs.map((i) => <th key={i.key} className={cellClass(i.key)}><VariableName input={true} variable={i} />{i.unit}</th>)}
                         {outputs.map((i) => <th key={i.key} className={cellClass(i.key)}><VariableName variable={i} />{i.unit}</th>)}
                     </tr>
                 </thead>
