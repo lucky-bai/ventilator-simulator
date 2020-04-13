@@ -59,16 +59,17 @@ function Control(props) {
 
     let patientClass = (key) => (key.endsWith("_1") ? "patient-1" : (key.endsWith("_2") ? "patient-2" : ""));
 
+    
     return <div className={"control " + patientClass(variable.key) + " " + (normal ? "" : "abnormal")}>
         <div className="key"><VariableName input={mutable} variable={variable} /></div>
         <div className={"value " + (valid ? "" : "invalid")}>
-            <input type="text" value={value || "0"} disabled={!mutable} onChange={(e) => {
+            <input type="text" value={value || ""} disabled={!mutable} onChange={(e) => {
                 setTempVal(e.target.value.replace(/[^\d.-]/g, ''));
             }} onBlur={(e) => {
                 // intervals
                 value = variable.range[0] + interval * Math.round((value - variable.range[0]) / interval);
 
-                if (value != props.value) {
+                if (value !== props.value) {
                     if (valid) {
                         props.onChange(parseFloat(value));
                     } else if (value < variable.range[0]) { // min / max
@@ -90,7 +91,7 @@ function Control(props) {
         { mutable ? <div className="dial"
                 onMouseDown={(e) => {
                     startDragging(value, interval, variable.range, e.clientX, e.clientY, setTempVal, (v) => {
-                        if (v != props.value) {
+                        if (v !== props.value) {
                             props.onChange(v);
                         }
                         setTempVal(null);

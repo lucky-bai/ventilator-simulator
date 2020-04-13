@@ -93,22 +93,44 @@ export default class SchematicView extends React.Component {
 
         let descs = document.querySelectorAll("desc");
 
+        let elmsToAppend = [];
+
         for (var desc of descs) {
             // Create container element
             let elm = document.createElement("div");
-            this.containerContainer.appendChild(elm);
 
-            elm.className = "schematic-container";
+            // We create a 2nd element used just for the label, this is for the mobile view
+            let elm2 = document.createElement("div");
+            this.containerContainer.appendChild(elm2);
+
+            elm.className = "schematic-container entire-control-container";
+            elm2.className = "schematic-container label-only-container";
+
+
+            let titleParts = desc.parentElement.querySelector("title").innerHTML.split(".");
+            let title = titleParts[1].trim();
+            let idx = titleParts[0].trim();
+
+            elmsToAppend[parseInt(idx)] = elm;
+
+            for (const e of [elm, elm2]) {
+                let label = document.createElement("div");
+                label.className = "label";
+                label.innerHTML = "<div>" + idx + "</div> " + title;
+                e.appendChild(label);
+            }
 
             let controlContaner = document.createElement("div");
             controlContaner.className = "control-container";
             elm.appendChild(controlContaner);
             
             let rect = desc.parentElement.getBoundingClientRect();
-            elm.style.top = window.scrollY + rect.top + "px";
-            elm.style.left = window.scrollX + rect.left + "px";
-            elm.style.width = rect.width + "px";
-            elm.style.height = rect.height + "px";
+            for (const e of [elm, elm2]) {
+                e.style.top = window.scrollY + rect.top + "px";
+                e.style.left = window.scrollX + rect.left + "px";
+                e.style.width = rect.width + "px";
+                e.style.height = rect.height + "px";
+            }
 
             let vars = desc.textContent.split(",");
             for (var v of vars) {
@@ -122,6 +144,13 @@ export default class SchematicView extends React.Component {
             }
 
             desc.parentElement.style.opacity = 0;
+        }
+        
+        
+        for (var i = 0; i < elmsToAppend.length; i += 1) {
+            if (elmsToAppend[i]) {
+                this.containerContainer.appendChild(elmsToAppend[i]);
+            }
         }
     }
 }
