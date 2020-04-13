@@ -13,38 +13,11 @@
   border-bottom-right-radius: 3px;
 }
 
-.mode-switch {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 10px;
-  border-bottom: 1px solid #eeeeee;
-  border-left: 1px solid #eeeeee;
-  border-bottom-left-radius: 3px;
-
-  display: flex;
-  flex-direction: row;
-}
-
-.mode-switch div {
-  border-right: 1px solid #eeeeee;
-  cursor: pointer;
-  padding: 5px 10px;
-}
-
-
-.mode-switch div:hover {
-  background-color: #eeeeee;
-}
-
-.mode-switch div:last-child {
-  border-right: none;
-}
-
 .svg {
   width: 99vw;
-  height: 99vh;
+  height: 60vh;
   padding: 10px;
+  min-height: 500px;
 }
 
 svg {
@@ -56,8 +29,7 @@ svg {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 60px 20px 20px 20px;
-  height: 100vh;
+  padding: 20px 20px 20px 20px;
 
   display: flex;
   flex-direction: column;
@@ -77,6 +49,8 @@ table {
   margin-bottom: 15px;
   font-size: 10pt;
   position: relative;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 table, tr, td, th {
@@ -90,11 +64,15 @@ th {
 }
 
 td, th {
-  padding: 5px;
+  padding: 2px;
+}
+
+td {
+  text-align: right;
 }
 
 .current {
-  background-color:rgba(215, 230, 215, 0.418);
+  font-weight: bold;
 }
 
 tr:hover {
@@ -111,8 +89,6 @@ tr:hover {
 .control-container {
   display: flex;
   flex-direction: row;
-  overflow: hidden;
-  flex-wrap: wrap;
 }
 
 
@@ -124,6 +100,7 @@ tr:hover {
   padding: 5px 10px;
   font-size: 13pt;
   align-items: stretch;
+  position: relative;
 }
 
 .control.abnormal {
@@ -200,32 +177,51 @@ tr:hover {
 
   border: 1px solid #a3a3a344;
   border-radius: 0px;
-  min-width: 242px;
-  max-width: 322px; /* ugly hack for flex wrap */
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.068);
 }
 
 .dial {
-  width: 60px;
+  width: 100%;
+  transform: translateX(-1px);
+  position: absolute;
+  z-index: 50;
+  top: 100%;
+  left: 0;
+  background-color: inherit;
+
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.2s;
+
+  box-sizing: content-box;
+  border-bottom: 1px solid #a3a3a344;
+  border-left: 1px solid #a3a3a344;
+  border-right: 1px solid #a3a3a344;
+}
+
+.control:hover .dial {
   height: 60px;
-  position: relative;
 }
 
 .dial .min, .dial .max {
   position: absolute;
-  bottom: 0;
+  top: 40px;
   font-size: 8pt;
   font-weight: bold;
 }
 
+.dial .min {
+  left: 10px;
+}
+
 .dial .max {
-  right: 0;
+  right: 10px;
 }
 
 .dial .dial-control {
   position: absolute;
-  top: 7px;
-  left: 10px;
+  top: 4px;
+  left: 20px;
   transform: rotate(0deg); /* 140 deg */
   cursor: col-resize;
 
@@ -287,4 +283,36 @@ tr:hover {
   content: '';
   transform: rotate(45deg);
   background: #333;
+}
+
+
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  height: 50px;
+
+  border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.toolbar .buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  margin-left: auto;
+}
+
+.toolbar .buttons .simulate {
+  background-color: rgb(0, 60, 172);
+  color: white;
+}
+
+.toolbar .buttons div {
+  padding: 0 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }

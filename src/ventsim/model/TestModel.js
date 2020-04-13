@@ -6,14 +6,14 @@ export default class TestModel extends Model {
         return [
             { key: "W_1", desc: "Weight", unit: "kg", range: [40, 120] },
             { key: "Cr_1", desc: "Lung Compliance", interval: 5, unit: "ml/cmH20", range: [10, 70] },
-            { key: "PF_1",
+            { key: "P:F_1",
                 desc: "Ratio of arterial partial pressure of oxygen to fraction of inspired oxygen",
                 range: [100, 500] },
 
                 
             { key: "W_2", desc: "Weight", unit: "kg", range: [40, 120] },
             { key: "Cr_2", desc: "Lung Compliance", interval: 5, unit: "ml/cmH20", range: [10, 70] },
-            { key: "PF_2",
+            { key: "P:F_2",
                 desc: "Ratio of arterial partial pressure of oxygen to fraction of inspired oxygen",
                 range: [100, 500] },
 
@@ -60,10 +60,13 @@ export default class TestModel extends Model {
     }
 
     changeInput(input) {
-        let newValues = {
-            //"pH_1": input["W_1"] + input["W_2"],
-            //"pH_2": input["W_1"] - input["W_2"],
-        };
+        let newValues = {};
+
+        for (var output of this.outputVariables()) {
+            let range = output.range || [0, 10];
+            newValues[output.key] = range[0] + Math.random() * (range[1] - range[0]);
+        }
+
         this.changeOutput(newValues);
     }
 }

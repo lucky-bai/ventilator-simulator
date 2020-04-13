@@ -2,19 +2,33 @@ import React, { useState, useEffect, useRef } from 'react';
 import Control from './controls/Control';
 import VariableName from './controls/VariableName';
 
+function formatNum(num) {    
+    if (num === null || num === undefined) {
+        return "";
+    }
+    return +(Math.round(num + "e+2")  + "e-2");
+}
+
+let secondaryVars = ["FGFO", "FGFA", "PEEP"];
+let patientVars = ["pH", "PaCO2", "PaO2","HCO3","PIP","APEEP","VT","FiO2"];
+
+let tableCategories = [
+    ["primary-vent", "Primary", ["PC", "PEEP0", "RR", "IT"]],
+    ["secondary-1", "Secondary 1", secondaryVars.map((s) => s + "_1")],
+    ["patient-1", "Patient 1", patientVars.map((s) => s + "_1") ],
+    ["secondary-2", "Secondary 2", secondaryVars.map((s) => s + "_2")],
+    ["patient-2", "Patient 2", patientVars.map((s) => s + "_2") ]
+];
+let allVarsList = tableCategories.reduce((a, b) => a.concat(b[2]), []);
+
 function TabularRow(props) {
     
     return <tr onClick={() => props.onChangeInput(props.input)} className={props.lastRow ? "current" : ""}>
-        {props.inputs.map((i) => <td key={i.key}>{props.input ? (props.input[i.key]) : null}</td>)}
-        {props.outputs.map((i) => <td key={i.key}>{props.output ? (props.output[i.key]) : null}</td>)}
+        {props.variables.map((i) => <td key={i}>{formatNum((props.input ? props.input[i] : null) || (props.output ? props.output[i] : null))}</td>)}
     </tr>;
 }
 
 function TabularView(props) {
-
-    let inputs = props.inputs;
-    let outputs = props.outputs;
-    let currentInput = Object.assign({}, props.currentInput);
 
     let rows = [];
 
@@ -22,7 +36,7 @@ function TabularView(props) {
         let historyEntry = props.history[i];
         let entryOutputs = historyEntry[1];
 
-        rows.push(<TabularRow key={i} inputs={inputs} outputs={outputs}
+        rows.push(<TabularRow key={i} variables={allVarsList}
             input={historyEntry[0]}
             output={entryOutputs.length > 0 ? entryOutputs[0] : null}
             onChangeInput={props.onChangeInput}
@@ -30,7 +44,7 @@ function TabularView(props) {
 
         if (entryOutputs.length > 1) {
             for (var j = 1; j < entryOutputs.length; j += 1) {
-                rows.push(<TabularRow key={i+"."+j} inputs={inputs} outputs={outputs} output={entryOutputs[j]}
+                rows.push(<TabularRow key={i+"."+j} variables={allVarsList} output={entryOutputs[j]}
                     onChangeInput={props.onChangeInput}
                     lastRow={i == (props.history.length - 1) && j == (entryOutputs.length - 1)} />);
             }
@@ -48,29 +62,20 @@ function TabularView(props) {
     useEffect(scrollToBottom);
     
     return <div className="tabular-view">
-        <h1>Log</h1>
         <div className="table-container" ref={tableContainerRef}>
             <table>
                 <thead>
-                    <tr><th colSpan={inputs.length}>Input</th><th colSpan={outputs.length}>Output</th></tr>
                     <tr>
-                        {inputs.map((i) => <th key={i.key} className={cellClass(i.key)}><VariableName input={true} variable={i} />{i.unit}</th>)}
-                        {outputs.map((i) => <th key={i.key} className={cellClass(i.key)}><VariableName variable={i} />{i.unit}</th>)}
+                        {tableCategories.map((c) => <th className={c[0]} colSpan={c[2].length}>{c[1]}</th>)}
+                    </tr>
+                    <tr>
+                        {allVarsList.map((i) => <th key={i} className={cellClass(i)}>{i.replace("_1", "").replace("_2", "")}</th>)}                    
                     </tr>
                 </thead>
-                <tbody>{rows}</tbody>
+                <tbody>{rows.reverse()}</tbody>
             </table>
         </div>
-        <p>Click on a row to reset input values to those values. Current values are highlighted in <span className="current">green</span></p>
-        <h1>Inputs</h1>
-        <div className="control-container tabular-controls">
-            {props.inputs.map((input) => {
-                return <Control key={input.key} variable={input} mutable={true} value={currentInput[input.key]} onChange={(v) => {
-                    currentInput[input.key] = v;
-                    props.onChangeInput(currentInput);
-                }} />
-            })}
-        </div>
+        <p>Click on a row to reset input values to those values. Current values are <span className="current">bold</span></p>
     </div>;
 }
 

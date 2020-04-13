@@ -27,7 +27,8 @@ export default class SchematicView extends React.Component {
     }
 
     render() {
-        let svgData = {__html: raw("./schematic2.svg")}
+
+        let svgData = {__html: raw("./schematic.svg")}
         let currentInput = Object.assign({}, this.props.currentInput);
 
         let currentOutput = this.props.history[this.props.history.length - 1] || [null, null];
@@ -58,6 +59,14 @@ export default class SchematicView extends React.Component {
                 this.containerContainer = e;
                 this.updateSvgElements();
             }} />
+
+            <div className="toolbar">
+                <p>Change the inputs above, then click the "Simulate" button to see results below.</p>
+                <div className="buttons">
+                    <div className="simulate">Simulate</div>
+                    <div className="reset">Reset</div>
+                </div>
+            </div>
         </div>;
     }
 
@@ -81,7 +90,7 @@ export default class SchematicView extends React.Component {
         this.containerContainer.innerHTML = "";
         
 
-        // find svg todo
+
         let descs = document.querySelectorAll("desc");
 
         for (var desc of descs) {
@@ -96,8 +105,8 @@ export default class SchematicView extends React.Component {
             elm.appendChild(controlContaner);
             
             let rect = desc.parentElement.getBoundingClientRect();
-            elm.style.top = rect.top + "px";
-            elm.style.left = rect.left + "px";
+            elm.style.top = window.scrollY + rect.top + "px";
+            elm.style.left = window.scrollX + rect.left + "px";
             elm.style.width = rect.width + "px";
             elm.style.height = rect.height + "px";
 
