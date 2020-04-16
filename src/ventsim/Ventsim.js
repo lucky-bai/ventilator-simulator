@@ -1,14 +1,14 @@
 import React from 'react';
 import './Ventsim.css';
 import View from './view/View';
-import TestModel from './model/TestModel';
+import LogicModel from './model/LogicModel';
 
 export default class Ventsim extends React.Component {
     constructor(props) {
         super(props);
 
         // Set up model
-        this.model = new TestModel();
+        this.model = new LogicModel();
 
         // Set up state
         this.state = { 
@@ -32,12 +32,30 @@ export default class Ventsim extends React.Component {
         this.changeInput(this.model.initialInput());
     }
 
-    changeInput(input) {
+    changeInput(input, commitImmediately) {
         this.setState({
-            currentInput: input,
+            currentInput: input
+        });
+        
+        if (commitImmediately) {
+            this.commitInput(input);
+        }
+    }
+
+    commitInput(input) {
+        input = input || this.state.currentInput;
+
+        this.setState({
             history: [...this.state.history, [input, []]]
         });
         this.model.changeInput(input);
+    }
+
+    reset() {
+        this.setState({
+            currentInput: this.model.initialInput(),
+            history: []
+        });
     }
 
     componentWillUnmount() {
@@ -50,9 +68,11 @@ export default class Ventsim extends React.Component {
                 inputs={this.model.inputVariables()}
                 outputs={this.model.outputVariables()}
                 currentInput={this.state.currentInput}
+                onCommitInput={this.commitInput.bind(this)}
                 history={this.state.history}
-                onChangeInput={(input) => {
-                    this.changeInput(input);
+                onReset={this.reset.bind(this)}
+                onChangeInput={(input, commitImmediately) => {
+                    this.changeInput(input, commitImmediately);
                 }} />
           </div>;
     }

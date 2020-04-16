@@ -9,8 +9,8 @@ function formatNum(num) {
     return +(Math.round(num + "e+2")  + "e-2");
 }
 
-let secondaryVars = ["FGFO", "FGFA", "PEEP"];
-let patientVars = ["pH", "PaCO2", "PaO2","HCO3","PIP","APEEP","VT","FiO2"];
+let secondaryVars = ["Cr", "PF", "HCO3", "FGFO", "FGFA", "PEEP"];
+let patientVars = ["FGFtot", "VT", "MIP", "FIO2", "PEEPInt", "APEEP", "VCO2", "VO2", "ADS", "AVT", "PaO2", "PaCO2", "CaCO2", "HPlus", "pH"];
 
 let tableCategories = [
     ["primary-vent", "Primary", ["PC", "PEEP0", "RR", "IT"]],
@@ -23,8 +23,18 @@ let allVarsList = tableCategories.reduce((a, b) => a.concat(b[2]), []);
 
 function TabularRow(props) {
     
-    return <tr onClick={() => props.onChangeInput(props.input)} className={props.lastRow ? "current" : ""}>
-        {props.variables.map((i) => <td key={i}>{formatNum((props.input ? props.input[i] : null) || (props.output ? props.output[i] : null))}</td>)}
+    return <tr onClick={() => props.onChangeInput(props.input, true)} className={props.lastRow ? "current" : ""}>
+        {props.variables.map((i) => {
+            var value = null;
+            if (props.input !== null && props.input[i] !== null && props.input[i] !== undefined) {
+                value = props.input[i];
+            }
+            if (props.output !== null && props.output[i] !== null && props.output[i] !== undefined) {
+                value = props.output[i];
+            }
+
+            return <td key={i}>{formatNum(value).toString()}</td>;
+        })}
     </tr>;
 }
 
@@ -66,7 +76,7 @@ function TabularView(props) {
             <table>
                 <thead>
                     <tr>
-                        {tableCategories.map((c) => <th className={c[0]} colSpan={c[2].length}>{c[1]}</th>)}
+                        {tableCategories.map((c) => <th key={c[0]} className={c[0]} colSpan={c[2].length}>{c[1]}</th>)}
                     </tr>
                     <tr>
                         {allVarsList.map((i) => <th key={i} className={cellClass(i)}>{i.replace("_1", "").replace("_2", "")}</th>)}                    

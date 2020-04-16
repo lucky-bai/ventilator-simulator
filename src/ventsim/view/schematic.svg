@@ -2323,7 +2323,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.28"
-     inkscape:cx="699.78071"
+     inkscape:cx="584.54633"
      inkscape:cy="399.02687"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -2333,10 +2333,10 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      units="cm"
-     inkscape:window-width="3000"
-     inkscape:window-height="1875"
-     inkscape:window-x="-13"
-     inkscape:window-y="-13"
+     inkscape:window-width="3840"
+     inkscape:window-height="2066"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
      inkscape:window-maximized="1"
      inkscape:snap-page="true"
      inkscape:snap-grids="false"
@@ -2362,7 +2362,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -3164,7 +3164,7 @@
       <title
          id="title579">7. Patient 1</title>
       <desc
-         id="desc4861-4">W_1, Cr_1, P:F_1</desc>
+         id="desc4861-4">H_1, W_1, Cr_1, P:F_1, HCO3_1</desc>
     </rect>
     <rect
        id="rect4859-2-7"
@@ -3203,7 +3203,7 @@
       <title
          id="title581">4. Patient 2</title>
       <desc
-         id="desc4861-4-4">W_2, Cr_2, P:F_2</desc>
+         id="desc4861-4-4">H_2, W_2, Cr_2, P:F_2, HCO3_2</desc>
     </rect>
     <rect
        id="rect4859-2-2-1"

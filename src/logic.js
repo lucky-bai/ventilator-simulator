@@ -30,7 +30,7 @@ P1, P2: two patients
   PEEP: PEEP valve setting on secondary circuit
 
 */
-function calc(M, P1, P2) {
+export function calc(M, P1, P2) {
 
   // Subtract vapor pressure
   M.Pdry = M.Pbar - 47;
@@ -41,9 +41,9 @@ function calc(M, P1, P2) {
   // inspiratory time / expiratory time
   M.IER = M.IT / (M.Ttot - M.IT);
 
-  patients = [P1, P2];
+  let patients = [P1, P2];
   for(var i in [0, 1]) {
-    P = patients[i];
+    let P = patients[i];
 
     // fresh gas flow total, in L/min
     P.FGFtot = P.FGFO + P.FGFA;
@@ -104,14 +104,14 @@ function calc(M, P1, P2) {
 }
 
 function test_calc(){
-  M = {};
+  let M = {};
   M.PC = 40;
   M.PEEP0 = 5;
   M.RR = 18;
   M.IT = 1;
   M.Pbar = 760;
 
-  P1 = {}
+  let P1 = {}
   P1.H = 140;
   P1.W = 55;
   P1.Cr = 15;
@@ -121,7 +121,7 @@ function test_calc(){
   P1.FGFA = 2;
   P1.PEEP = 5;
 
-  P2 = {}
+  let P2 = {}
   P2.H = 180;
   P2.W = 70;
   P2.Cr = 50;
@@ -131,7 +131,7 @@ function test_calc(){
   P2.FGFA = 8;
   P2.PEEP = 5;
 
-  outputs = calc(M, P1, P2)
+  let outputs = calc(M, P1, P2)
   console.log(outputs);
 }
 

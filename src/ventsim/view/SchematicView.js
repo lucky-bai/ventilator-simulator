@@ -61,10 +61,10 @@ export default class SchematicView extends React.Component {
             }} />
 
             <div className="toolbar">
-                <p>Change the inputs above, then click the "Simulate" button to see results below.</p>
+                <div className="text">Change the inputs above, then click the "Simulate" button to see results below.</div>
                 <div className="buttons">
-                    <div className="simulate">Simulate</div>
-                    <div className="reset">Reset</div>
+                    <div className="simulate" onClick={() => this.props.onCommitInput()}><i className="ri-arrow-down-fill"></i> Simulate</div>
+                    <div className="reset" onClick={() => this.props.onReset()}><i className="ri-restart-line"></i> Reset</div>
                 </div>
             </div>
         </div>;
@@ -128,8 +128,8 @@ export default class SchematicView extends React.Component {
             for (const e of [elm, elm2]) {
                 e.style.top = window.scrollY + rect.top + "px";
                 e.style.left = window.scrollX + rect.left + "px";
-                e.style.width = rect.width + "px";
-                e.style.height = rect.height + "px";
+                e.style.minWidth = rect.width + "px";
+                e.style.minHeight = rect.height + "px";
             }
 
             let vars = desc.textContent.split(",");

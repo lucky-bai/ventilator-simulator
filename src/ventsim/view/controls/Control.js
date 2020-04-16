@@ -35,7 +35,8 @@ function startDragging(initialValue, interval, range, mouseX, mouseY, onChange, 
 function Control(props) {
 
     let [tempVal, setTempVal] = useState(null);
-    let mouseX = useRef(null);
+    let [inputFocused, setInputFocused] = useState(false);
+    let [currentlyAdjusting, setCurrentlyAdjusting] = useState(false);
 
     let variable = props.variable;
     let mutable = props.mutable;
@@ -59,42 +60,55 @@ function Control(props) {
 
     let patientClass = (key) => (key.endsWith("_1") ? "patient-1" : (key.endsWith("_2") ? "patient-2" : ""));
 
-    
-    return <div className={"control " + patientClass(variable.key) + " " + (normal ? "" : "abnormal")}>
+    let dialSticky = inputFocused || currentlyAdjusting;
+    let stickyClass = dialSticky ? "dial-sticky" : "";
+
+    return <div className={"control " + patientClass(variable.key) + " " + (normal ? "" : "abnormal") + " " + stickyClass}>
         <div className="key"><VariableName input={mutable} variable={variable} /></div>
         <div className={"value " + (valid ? "" : "invalid")}>
-            <input type="text" value={value || ""} disabled={!mutable} onChange={(e) => {
-                setTempVal(e.target.value.replace(/[^\d.-]/g, ''));
-            }} onBlur={(e) => {
-                // intervals
-                value = variable.range[0] + interval * Math.round((value - variable.range[0]) / interval);
+            <input type="text"
+                value={(value === undefined || value === null) ? "" : value.toString()}
+                disabled={!mutable}
+                onFocus={(e) => {
+                    e.target.select();
+                    setInputFocused(true);
+                }}
+                onChange={(e) => {
+                    setTempVal(e.target.value.replace(/[^\d.-]/g, ''));
+                }}
+                onBlur={(e) => {
+                    // intervals
+                    value = variable.range[0] + interval * Math.round((value - variable.range[0]) / interval);
 
-                if (value !== props.value) {
-                    if (valid) {
-                        props.onChange(parseFloat(value));
-                    } else if (value < variable.range[0]) { // min / max
-                        props.onChange(variable.range[0]);
-                    } else if (value > variable.range[1]) {
-                        props.onChange(variable.range[1]);
+                    if (value !== props.value) {
+                        if (valid) {
+                            props.onChange(parseFloat(value));
+                        } else if (value < variable.range[0]) { // min / max
+                            props.onChange(variable.range[0]);
+                        } else if (value > variable.range[1]) {
+                            props.onChange(variable.range[1]);
+                        }
                     }
-                }
 
-                setTempVal(null);
-            }}
-            onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                    e.target.blur();
-                }  
-            }}/>
+                    setTempVal(null);
+                    setInputFocused(false);
+                }}
+                onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                        e.target.blur();
+                    }  
+                }}/>
         </div>
         <div className="unit">{variable.unit}</div>
         { mutable ? <div className="dial"
                 onMouseDown={(e) => {
+                    setCurrentlyAdjusting(true);
                     startDragging(value, interval, variable.range, e.clientX, e.clientY, setTempVal, (v) => {
                         if (v !== props.value) {
                             props.onChange(v);
                         }
                         setTempVal(null);
+                        setCurrentlyAdjusting(false);
                     });
                 }}>
             <div className="dial-control" style={{transform: "rotate(" + rotation + "deg)"}}></div>
