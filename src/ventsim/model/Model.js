@@ -24,6 +24,9 @@ export default class Model {
         var input = {};
         for (var variable of this.inputVariables()) {
             input[variable.key] = variable.range[0];
+            if(variable.defaultValue){
+                input[variable.key] = variable.defaultValue;
+            }
         }
         return input;
     }

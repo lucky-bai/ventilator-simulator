@@ -5,11 +5,13 @@ export default class Variable {
         unit=null,
         range=[-Infinity, Infinity],
         interval=1,
+        defaultValue=null,
     }) {
         this.key = key;
         this.desc = desc;
         this.unit = unit;
         this.range = range;
         this.interval = interval;
+        this.defaultValue = defaultValue;
     }
 }

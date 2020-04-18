@@ -7,10 +7,10 @@ export default class LogicModel extends Model {
     inputVariables() {
         var inputs = [
 
-            new Variable({ key: "PC", desc: "Pressure Control Level", unit: "cmH20", range: [0, 70], interval: 5 }),
-            new Variable({ key: "PEEP0", desc: "Positive End-Expiratory Pressure Level", range: [0, 10] }),
-            new Variable({ key: "RR", desc: "Respiratory Rate", unit: "breaths/min", range: [2, 40] }),
-            new Variable({ key: "IT", desc: "Inspiratory Time", unit: "sec", range: [0.5, 10], interval: 0.1 }),
+            new Variable({ key: "PC", desc: "Pressure Control Level", unit: "cmH20", range: [0, 70], interval: 5, defaultValue: 40 }),
+            new Variable({ key: "PEEP0", desc: "Positive End-Expiratory Pressure Level", range: [0, 10], defaultValue: 5 }),
+            new Variable({ key: "RR", desc: "Respiratory Rate", unit: "breaths/min", range: [2, 40], defaultValue: 18 }),
+            new Variable({ key: "IT", desc: "Inspiratory Time", unit: "sec", range: [0.5, 10], interval: 0.1, defaultValue: 1 }),
             
             // { key: "I:E", desc: "Inspiratory Time:Expiratory Time Ratio" }
 
@@ -18,17 +18,17 @@ export default class LogicModel extends Model {
 
         for (var suf of ["_1", "_2"]) {
             inputs = inputs.concat([
-                new Variable({ key: "H"+suf, desc: "Height", unit: "cm", range: [100, 250] }),
-                new Variable({ key: "W"+suf, desc: "Weight", unit: "kg", range: [40, 120] }),
-                new Variable({ key: "Cr"+suf, desc: "Lung Compliance", interval: 5, unit: "ml/cmH20", range: [10, 70] }),
+                new Variable({ key: "H"+suf, desc: "Height", unit: "cm", range: [100, 250], defaultValue: 140 }),
+                new Variable({ key: "W"+suf, desc: "Weight", unit: "kg", range: [40, 120], defaultValue: 55 }),
+                new Variable({ key: "Cr"+suf, desc: "Lung Compliance", interval: 5, unit: "ml/cmH20", range: [10, 70], defaultValue: 15 }),
                 new Variable({ key: "PF"+suf,
                     desc: "Ratio of arterial partial pressure of oxygen to fraction of inspired oxygen",
-                    range: [100, 500] }),
+                    range: [100, 500], defaultValue: 100 }),
 
-                new Variable({ key: "HCO3"+suf, desc: "Arterial Bicarbonate Concentration", unit: "nM/L", range: [22, 28] }), 
-                new Variable({ key: "FGFO"+suf, desc: "Fresh Gas Oxygen Flow", unit: "LPM", range: [0, 15] }),
-                new Variable({ key: "FGFA"+suf, desc: "Fresh Gas Air Flow", unit: "LPM", range: [0, 15] }),
-                new Variable({ key: "PEEP"+suf, desc: "PEEP Valve Setting", unit: "cmH20", range: [0, 25] }), 
+                new Variable({ key: "HCO3"+suf, desc: "Arterial Bicarbonate Concentration", unit: "nM/L", range: [22, 28], defaultValue: 24 }), 
+                new Variable({ key: "FGFO"+suf, desc: "Fresh Gas Oxygen Flow", unit: "L/min", range: [0, 15], defaultValue: 8 }),
+                new Variable({ key: "FGFA"+suf, desc: "Fresh Gas Air Flow", unit: "L/min", range: [0, 15], defaultValue:2 }),
+                new Variable({ key: "PEEP"+suf, desc: "PEEP Valve Setting", unit: "cmH20", range: [0, 25], defaultValue: 5 }), 
             ]);
         }
 
