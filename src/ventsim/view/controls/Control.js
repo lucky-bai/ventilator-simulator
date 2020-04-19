@@ -1,25 +1,50 @@
 import React, { useState, useRef } from 'react';
 import VariableName from './VariableName';
 
+function convertRange(oldMin, oldMax, newMin, newMax, oldValue) {
+    return (oldValue - oldMin) * (newMax - newMin) / (oldMax - oldMin) + newMin;
+};
 
-function startDragging(initialValue, interval, range, mouseX, mouseY, onChange, onCommit) {
+function getDeg(cX, cY, pts, startAngle, endAngle) {
+    const x = cX - pts.x;
+    const y = cY - pts.y;
+    let deg = Math.atan(y / x) * 180 / Math.PI;
+    if ((x < 0 && y >= 0) || (x < 0 && y < 0)) {
+      deg += 90;
+    } else {
+      deg += 270;
+    }
+    let finalDeg = Math.min(Math.max(startAngle, deg), endAngle);
+    return finalDeg;
+};
 
+function startDragging(target, initialValue, interval, range, mouseX, mouseY, onChange, onCommit) {
     var value = initialValue;
-
-    let fullDragSize = 300;
-    let pixels = fullDragSize / (((range[1] - range[0]) / interval));
+    let fullAngle = 300
+    let startAngle = (360 - fullAngle) / 2;
+    let endAngle = startAngle + fullAngle;
 
     let moveListener = (e) => {
-        let diffX = e.clientX - mouseX;
-        let diffY = mouseY - e.clientY;
-        let diff = Math.abs(diffX) > Math.abs(diffY) ? diffX : diffY;
-        if (Math.abs(diff) > pixels) {
-            value = value + Math.sign(diff) * interval * Math.round(Math.abs(diff) / pixels);
-            value = Math.max(range[0], Math.min(range[1], value));
-            onChange(value);
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        }
+        const knob = target.getBoundingClientRect();
+        const pts = {
+          x: knob.left + knob.width / 2,
+          y: knob.top + knob.height / 2
+        };
+        let currentDeg = getDeg(e.clientX, e.clientY, pts, startAngle, endAngle);
+        if (currentDeg === startAngle) currentDeg--;
+        let newValue = Math.floor(
+            convertRange(
+              startAngle,
+              endAngle,
+              range[0],
+              range[1],
+              currentDeg
+            )
+        );
+        if (newValue >= range[0] && newValue <= range[1]) value = newValue;
+        onChange(value);
+        mouseX = e.clientX;
+        mouseY = e.clientY;
     };
 
     let leaveListener = (e) => {
@@ -96,14 +121,14 @@ function Control(props) {
                 onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                         e.target.blur();
-                    }  
+                    }
                 }}/>
         </div>
         <div className="unit">{variable.unit}</div>
         { mutable ? <div className="dial"
                 onMouseDown={(e) => {
                     setCurrentlyAdjusting(true);
-                    startDragging(value, interval, variable.range, e.clientX, e.clientY, setTempVal, (v) => {
+                    startDragging(e.target, value, interval, variable.range, e.clientX, e.clientY, setTempVal, (v) => {
                         if (v !== props.value) {
                             props.onChange(v);
                         }
