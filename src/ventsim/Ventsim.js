@@ -9,32 +9,19 @@ export default class Ventsim extends React.Component {
 
         // Set up model
         this.model = new LogicModel();
+        this.variables = this.model.variables();
 
         // Set up state
         this.state = { 
-            input: null,
+            current: this.model.initialState(),
             history: []
         };
     }
 
-    componentDidMount() {
-        this.outputListener = this.model.addOutputListener((newOutput) => {
-            this.setState(prevState => {
-                // ugly hack to get around not being able to deep copy array
-                let newHistory = prevState.history.slice();
-                newHistory[newHistory.length - 1] = newHistory[newHistory.length - 1].slice();
-                newHistory[newHistory.length - 1][1] = newHistory[newHistory.length - 1][1].concat([newOutput]);
-                return { history: newHistory };
-            });
-        });
-
-        // initial input
-        this.changeInput(this.model.initialInput());
-    }
 
     changeInput(input, commitImmediately) {
         this.setState({
-            currentInput: input
+            current: input
         });
         
         if (commitImmediately) {
@@ -43,33 +30,31 @@ export default class Ventsim extends React.Component {
     }
 
     commitInput(input) {
-        input = input || this.state.currentInput;
+        input = input || this.state.current;
+
+        let newState = this.model.changeInput(input);
 
         this.setState({
-            history: [...this.state.history, [input, []]]
+            current: newState,
+            history: [...this.state.history, newState]
         });
-        this.model.changeInput(input);
     }
 
     reset() {
         this.setState({
-            currentInput: this.model.initialInput(),
+            current: this.model.initialState(),
             history: []
         });
-    }
-
-    componentWillUnmount() {
-        this.model.removeOutputListener(this.outputListener);
     }
 
     render() {
         return <div className="ventsim">
             <View
-                inputs={this.model.inputVariables()}
-                outputs={this.model.outputVariables()}
-                currentInput={this.state.currentInput}
-                onCommitInput={this.commitInput.bind(this)}
+                variables={this.variables}
+                state={this.state.current}
                 history={this.state.history}
+
+                onCommitInput={this.commitInput.bind(this)}
                 onReset={this.reset.bind(this)}
                 onChangeInput={(input, commitImmediately) => {
                     this.changeInput(input, commitImmediately);

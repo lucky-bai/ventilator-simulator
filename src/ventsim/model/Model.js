@@ -9,48 +9,27 @@ export default class Model {
         this.outputListeners = [];
     }
 
-    inputVariables() {
+    variables() {
         return [];
     }
 
-    outputVariables() {
-        return [];
-    }
 
-    // what the initial state of the inputs should be
-    // your model will receive a changeInput call with this value when it is instantiated
-    // override to provide better defaults
-    initialInput() {
+    // what the initial state of the variables should be
+    initialState() {
         var input = {};
-        for (var variable of this.inputVariables()) {
-            input[variable.key] = variable.range[0];
+        for (var variable of this.variables()) {
             if(variable.defaultValue){
                 input[variable.key] = variable.defaultValue;
+            } else if (variable.range) {
+                input[variable.key] = variable.range[0];
             }
         }
         return input;
     }
 
     // input: object with key for each input variable
+    // return new state
     changeInput(input) {
-    }
-
-    // only called by model itself to send output update
-    changeOutput(output) {
-        this.outputListeners.forEach((l) => l(output));
-    }
-
-    // add a listener to output changes
-    // called with an object with a key for each output variable
-    addOutputListener(listener) {
-        this.outputListeners.push(listener);
-        return listener;
-    }
-
-    removeOutputListener(listener) {
-        let index = this.outputListeners.indexOf(listener);
-        if (index > -1) {
-            this.outputListeners.splice(index, 1);
-        }
+        return {};
     }
 }

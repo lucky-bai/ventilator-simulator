@@ -1,66 +1,30 @@
 import Model from './Model';
 import Variable from './Variable';
 import { calc } from '../../logic';
+import config from '../../config.json';
 
 export default class LogicModel extends Model {
 
-    inputVariables() {
-        var inputs = [
+    variables() {
+        let variableConf = config.variables;
 
-            new Variable({ key: "PC", desc: "Pressure Control Level", unit: "cmH20", range: [0, 70], interval: 5, defaultValue: 40 }),
-            new Variable({ key: "PEEP0", desc: "Positive End-Expiratory Pressure Level", range: [0, 10], defaultValue: 5 }),
-            new Variable({ key: "RR", desc: "Respiratory Rate", unit: "breaths/min", range: [2, 40], defaultValue: 18 }),
-            new Variable({ key: "IT", desc: "Inspiratory Time", unit: "sec", range: [0.5, 10], interval: 0.1, defaultValue: 1 }),
-            
-            // { key: "I:E", desc: "Inspiratory Time:Expiratory Time Ratio" }
+        var variables = variableConf.primary.map((conf) => new Variable(conf));
 
-        ];
+        variables = variables.concat(variableConf.patient.map((conf) => {
+            conf = { ... conf };
+            conf.key += "_1";
+            return new Variable(conf);
+        }));
+        variables = variables.concat(variableConf.patient.map((conf) => {
+            conf = { ... conf };
+            conf.key += "_2";
+            return new Variable(conf);
+        }));
 
-        for (var suf of ["_1", "_2"]) {
-            inputs = inputs.concat([
-                new Variable({ key: "H"+suf, desc: "Height", unit: "cm", range: [100, 250], defaultValue: 140 }),
-                new Variable({ key: "W"+suf, desc: "Weight", unit: "kg", range: [40, 120], defaultValue: 55 }),
-                new Variable({ key: "Cr"+suf, desc: "Lung Compliance", interval: 5, unit: "ml/cmH20", range: [10, 70], defaultValue: 15 }),
-                new Variable({ key: "PF"+suf,
-                    desc: "Ratio of arterial partial pressure of oxygen to fraction of inspired oxygen",
-                    range: [100, 500], defaultValue: 100 }),
-
-                new Variable({ key: "HCO3"+suf, desc: "Arterial Bicarbonate Concentration", unit: "nM/L", range: [22, 28], defaultValue: 24 }), 
-                new Variable({ key: "FGFO"+suf, desc: "Fresh Gas Oxygen Flow", unit: "L/min", range: [0, 15], defaultValue: 8 }),
-                new Variable({ key: "FGFA"+suf, desc: "Fresh Gas Air Flow", unit: "L/min", range: [0, 15], defaultValue:2 }),
-                new Variable({ key: "PEEP"+suf, desc: "PEEP Valve Setting", unit: "cmH20", range: [0, 25], defaultValue: 5 }), 
-            ]);
-        }
-
-        return inputs;
-    }
-
-    outputVariables() {
-        let singlePatientOutputs = [
-            { key: "pH", desc: "pH", range: [7.3, 7.4] },
-            { key: "PaCO2", desc: "Partial pressure of carbon dioxide", range: [35,45], unit: "mmHg" },
-            { key: "PaO2", desc: "Partial pressure of oxygen", range: [100, Infinity], unit: "mmHg" },
-            //{ key: "HCO3", desc: "Bicarbonate concentration", range: [22, 28], unit: "mEq/L" },
-            { key: "PIP", desc: "Peak Inspiratory pressure", range: [0, 40], unit: "cmH20" },
-            { key: "APEEP", desc: "Actual PEEP", unit: "cmH20" },
-            { key: "VT", desc: "Tidal volume", unit: "ml", range: [50, 700] }, /* TODO normal range depends on weight */
-            { key: "FiO2", desc: "Fraction Inspired Oxygen" }, 
-        ];
-
-        var outputs = [];
-        for (var out of singlePatientOutputs) {
-            var p1 = {...out}, p2 = {...out};
-            p1["key"] += "_1";
-            p2["key"] += "_2";
-            outputs.push(p1);
-            outputs.push(p2);
-        }
-
-        return outputs;
+        return variables;
     }
 
     changeInput(input) {
-        let newValues = {};
 
         // Change input into logic.js format
         var M = {}, P1 = {}, P2 = {};
@@ -82,7 +46,7 @@ export default class LogicModel extends Model {
 
         // Calculate
         let outputs = calc(M, P1, P2);
-        var outputsFlattened = {};
+        var outputsFlattened = {...input};
         for (var out of Object.keys(outputs.M)) { 
             outputsFlattened[out] = outputs.M[out];
         }
@@ -92,8 +56,7 @@ export default class LogicModel extends Model {
         for (var out of Object.keys(outputs.P2)) { 
             outputsFlattened[out + "_2"] = outputs.P2[out];
         }
-        console.log(outputsFlattened);
 
-        this.changeOutput(outputsFlattened);
+        return outputsFlattened;
     }
 }

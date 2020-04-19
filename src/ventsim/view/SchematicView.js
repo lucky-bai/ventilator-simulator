@@ -16,44 +16,30 @@ export default class SchematicView extends React.Component {
         super(props);
 
         // Create hidden dom elements which will be used as portals to render controls
-        this.controlElmsInput = {};
-        this.controlElmsOutput = {};
-        for (const input of props.inputs) {
-            this.controlElmsInput[input.key] = document.createElement("div");
-        }
-        for (const output of props.outputs) {
-            this.controlElmsOutput[output.key] = document.createElement("div");
+        this.controlElms = {};
+        for (const variable of props.variables) {
+            this.controlElms[variable.key] = document.createElement("div");
         }
     }
 
     render() {
 
         let svgData = {__html: raw("./schematic.svg")}
-        let currentInput = Object.assign({}, this.props.currentInput);
-
-        let currentOutput = this.props.history[this.props.history.length - 1] || [null, null];
-        currentOutput = currentOutput[1] || [];
-        currentOutput = currentOutput[currentOutput.length - 1] || {};
+        let state = Object.assign({}, this.props.state);
 
         return <div>
             <div className="svg" dangerouslySetInnerHTML={svgData} />
 
-            {this.props.inputs.map((n) => <ControlPortal 
+            {this.props.variables.map((n) => <ControlPortal 
                 key={n.key}
                 variable={n}
-                mutable={true}
-                value={currentInput[n.key]}
-                elm={this.controlElmsInput[n.key]}
+                value={state[n.key]}
+                tooltipRef={this.props.tooltipRef}
+                elm={this.controlElms[n.key]}
                 onChange={(v) => {
-                    currentInput[n.key] = v;
-                    this.props.onChangeInput(currentInput);
+                    state[n.key] = v;
+                    this.props.onChangeInput(state);
                 }} />)}
-            {this.props.outputs.map((n) => <ControlPortal 
-                key={n.key}
-                variable={n}
-                mutable={false}
-                value={currentOutput[n.key]}
-                elm={this.controlElmsOutput[n.key]} />)}
 
             <div className="container-container" ref={(e) => {
                 this.containerContainer = e;
@@ -106,12 +92,11 @@ export default class SchematicView extends React.Component {
             elm.className = "schematic-container entire-control-container";
             elm2.className = "schematic-container label-only-container";
 
-
-            let titleParts = desc.parentElement.querySelector("title").innerHTML.split(".");
+            let titleParts = desc.parentElement.querySelector("title").innerHTML.split("-");
             let title = titleParts[1].trim();
             let idx = titleParts[0].trim();
 
-            elmsToAppend[parseInt(idx)] = elm;
+            elmsToAppend.push([idx, elm]);
 
             for (const e of [elm, elm2]) {
                 let label = document.createElement("div");
@@ -135,11 +120,10 @@ export default class SchematicView extends React.Component {
             let vars = desc.textContent.split(",");
             for (var v of vars) {
                 v = v.trim();
-                if (v in this.controlElmsInput) {
-                    controlContaner.appendChild(this.controlElmsInput[v]);
-                }
-                if (v in this.controlElmsOutput) {
-                    controlContaner.appendChild(this.controlElmsOutput[v]);
+                if (v in this.controlElms) {
+                    controlContaner.appendChild(this.controlElms[v]);
+                } else {
+                    console.log("Error: variable " + v + " not found");
                 }
             }
 
@@ -147,10 +131,7 @@ export default class SchematicView extends React.Component {
         }
         
         
-        for (var i = 0; i < elmsToAppend.length; i += 1) {
-            if (elmsToAppend[i]) {
-                this.containerContainer.appendChild(elmsToAppend[i]);
-            }
-        }
+        elmsToAppend.sort((a, b) => a[0].localeCompare(b[0]))
+            .map((a) => this.containerContainer.appendChild(a[1]));
     }
 }

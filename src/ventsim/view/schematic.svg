@@ -2323,7 +2323,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.28"
-     inkscape:cx="584.54633"
+     inkscape:cx="473.60883"
      inkscape:cy="399.02687"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -2333,10 +2333,10 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      units="cm"
-     inkscape:window-width="3840"
-     inkscape:window-height="2066"
-     inkscape:window-x="-11"
-     inkscape:window-y="-11"
+     inkscape:window-width="3000"
+     inkscape:window-height="1875"
+     inkscape:window-x="3827"
+     inkscape:window-y="-13"
      inkscape:window-maximized="1"
      inkscape:snap-page="true"
      inkscape:snap-grids="false"
@@ -3162,9 +3162,9 @@
        style="display:inline;stroke-width:0.14832059"
        transform="rotate(-90)">
       <title
-         id="title579">7. Patient 1</title>
+         id="title579">2.3 - Patient 2</title>
       <desc
-         id="desc4861-4">H_1, W_1, Cr_1, P:F_1, HCO3_1</desc>
+         id="desc4861-4">H_2, W_2, Cr_2, PF_2, HCO3_2</desc>
     </rect>
     <rect
        id="rect4859-2-7"
@@ -3175,7 +3175,7 @@
        style="display:inline;stroke-width:0.15386109"
        transform="rotate(-90)">
       <title
-         id="title591">1. Primary Ventilator</title>
+         id="title591">0 - Primary Ventilator</title>
       <desc
          id="desc4861-4-6">PC, PEEP0, RR, IT, I:E</desc>
     </rect>
@@ -3188,9 +3188,9 @@
        style="display:inline;stroke-width:0.11396183"
        transform="rotate(-90)">
       <title
-         id="title585">6. Fresh Gas</title>
+         id="title585">2.2 - Fresh Gas</title>
       <desc
-         id="desc4861-4-75">FGFO_1,FGFA_1</desc>
+         id="desc4861-4-75">FGFO_2,FGFA_2</desc>
     </rect>
     <rect
        id="rect4859-2-4"
@@ -3201,9 +3201,9 @@
        style="display:inline;stroke-width:0.1440817"
        transform="rotate(-90)">
       <title
-         id="title581">4. Patient 2</title>
+         id="title581">1.3 - Patient 1</title>
       <desc
-         id="desc4861-4-4">H_2, W_2, Cr_2, P:F_2, HCO3_2</desc>
+         id="desc4861-4-4">H_1, W_1, Cr_1, PF_1, HCO3_1</desc>
     </rect>
     <rect
        id="rect4859-2-2-1"
@@ -3214,9 +3214,9 @@
        style="display:inline;stroke-width:0.07948678"
        transform="rotate(-90)">
       <title
-         id="title583">3. Fresh Gas</title>
+         id="title583">1.2 - Fresh Gas</title>
       <desc
-         id="desc4861-4-75-0">FGFO_2,FGFA_2</desc>
+         id="desc4861-4-75-0">FGFO_1,FGFA_1</desc>
     </rect>
     <rect
        id="rect579"
@@ -3227,9 +3227,9 @@
        style="stroke-width:0.80000377"
        transform="rotate(-90)">
       <title
-         id="title587">5. PEEP</title>
+         id="title587">2.1 - PEEP</title>
       <desc
-         id="desc581">PEEP_1</desc>
+         id="desc581">PEEP_2</desc>
     </rect>
     <rect
        id="rect585"
@@ -3240,9 +3240,9 @@
        style="stroke-width:0.66950464"
        transform="rotate(-90)">
       <title
-         id="title589">2. PEEP</title>
+         id="title589">1.1 - PEEP</title>
       <desc
-         id="desc587">PEEP_2</desc>
+         id="desc587">PEEP_1</desc>
     </rect>
   </g>
 </svg>

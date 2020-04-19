@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { createPopper } from '@popperjs/core';
+import ReactDOM from 'react-dom';
 
-export default class VariableName extends React.Component {
+export default class VariableTooltip extends React.Component {
 
     setUpTooltip(tooltip, elm) {
         this.tooltip = this.tooltip || tooltip;
@@ -10,6 +11,8 @@ export default class VariableName extends React.Component {
         if (this.tooltip == null || this.elm == null) {
             return;
         }
+
+        this.popperInstance = createPopper(this.elm, this.tooltip, { placement: 'top' });
 
         const showEvents = ['mouseenter', 'focus'];
         const hideEvents = ['mouseleave', 'blur'];
@@ -25,36 +28,26 @@ export default class VariableName extends React.Component {
 
     destroyTooltip() {
         this.tooltip.removeAttribute('data-show');
-        if (this.popperInstance) {
-          this.popperInstance.destroy();
-          this.popperInstance = null;
-        }
       }
 
     showTooltip() {
         this.tooltip.setAttribute('data-show', '');
-        this.popperInstance = createPopper(this.elm, this.tooltip, { placement: 'top' });
     }
 
 
     render() {
         let variable = this.props.variable;
 
-        var splitName = variable.key.split("_");
-        let patientId = splitName.length == 2 ? splitName[1] : null;
-
-        return <div>
-            <div className="variable-name-tooltip" ref={(e) => this.setUpTooltip(e)}>
+        return <div ref={(e) => this.setUpTooltip(null, e)}>
+            {ReactDOM.createPortal(<div className="variable-name-tooltip" ref={(e) => this.setUpTooltip(e)}>
                 <div>{variable.desc}</div>
                 {variable.range ? 
-                    <div>{this.props.input ? "" : "Normal range: "}{variable.range[0]}-{variable.range[1]} {variable.unit}</div>
+                    <div className="range">{variable.range[0]}-{variable.range[1]} {variable.unit}</div>
                     : null}
                 <div className="arrow" data-popper-arrow></div>
-            </div>
-            <div className="variable-name" ref={(e) => this.setUpTooltip(null, e)}>
-                { /* patientId ? <div className="patient">Patient {patientId}</div> : null */ }
-                <div>{splitName[0]}</div>
-            </div>
+            </div>, this.props.tooltipRef.current)}
+            
+            {this.props.children}
         </div>
     };
 }

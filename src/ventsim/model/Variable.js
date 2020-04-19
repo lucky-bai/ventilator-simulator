@@ -3,7 +3,7 @@ export default class Variable {
         key=null,
         desc=null,
         unit=null,
-        range=[-Infinity, Infinity],
+        range=[null, null],
         interval=1,
         defaultValue=null,
     }) {
@@ -13,5 +13,11 @@ export default class Variable {
         this.range = range;
         this.interval = interval;
         this.defaultValue = defaultValue;
+    }
+
+    formatName() {
+        
+        var splitName = this.key.split("_");
+        return splitName[0];
     }
 }

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
-import VariableName from './VariableName';
+import VariableTooltip from './VariableTooltip';
+import Variable from '../../model/Variable';
 
 function convertRange(oldMin, oldMax, newMin, newMax, oldValue) {
     return (oldValue - oldMin) * (newMax - newMin) / (oldMax - oldMin) + newMin;
@@ -64,7 +65,7 @@ function Control(props) {
     let [currentlyAdjusting, setCurrentlyAdjusting] = useState(false);
 
     let variable = props.variable;
-    let mutable = props.mutable;
+    let mutable = true; // props.mutable;
     let value = tempVal === null ? props.value : tempVal;
     let interval = variable.interval || 1;
 
@@ -88,59 +89,63 @@ function Control(props) {
     let dialSticky = inputFocused || currentlyAdjusting;
     let stickyClass = dialSticky ? "dial-sticky" : "";
 
-    return <div className={"control " + patientClass(variable.key) + " " + (normal ? "" : "abnormal") + " " + stickyClass}>
-        <div className="key"><VariableName input={mutable} variable={variable} /></div>
-        <div className={"value " + (valid ? "" : "invalid")}>
-            <input type="text"
-                value={(value === undefined || value === null) ? "" : value.toString()}
-                disabled={!mutable}
-                onFocus={(e) => {
-                    e.target.select();
-                    setInputFocused(true);
-                }}
-                onChange={(e) => {
-                    setTempVal(e.target.value.replace(/[^\d.-]/g, ''));
-                }}
-                onBlur={(e) => {
-                    // intervals
-                    value = variable.range[0] + interval * Math.round((value - variable.range[0]) / interval);
+    return <VariableTooltip
+        variable={variable}
+        tooltipRef={props.tooltipRef}>
+            <div className={"control " + patientClass(variable.key) + " " + (normal ? "" : "abnormal") + " " + stickyClass}>
+                <div className="key">{variable.formatName()}</div>
+                <div className={"value " + (valid ? "" : "invalid")}>
+                    <input type="text"
+                        value={(value === undefined || value === null) ? "" : value.toString()}
+                        disabled={!mutable}
+                        onFocus={(e) => {
+                            e.target.select();
+                            setInputFocused(true);
+                        }}
+                        onChange={(e) => {
+                            setTempVal(e.target.value.replace(/[^\d.-]/g, ''));
+                        }}
+                        onBlur={(e) => {
+                            // intervals
+                            value = variable.range[0] + interval * Math.round((value - variable.range[0]) / interval);
 
-                    if (value !== props.value) {
-                        if (valid) {
-                            props.onChange(parseFloat(value));
-                        } else if (value < variable.range[0]) { // min / max
-                            props.onChange(variable.range[0]);
-                        } else if (value > variable.range[1]) {
-                            props.onChange(variable.range[1]);
-                        }
-                    }
+                            if (value !== props.value) {
+                                if (valid) {
+                                    props.onChange(parseFloat(value));
+                                } else if (value < variable.range[0]) { // min / max
+                                    props.onChange(variable.range[0]);
+                                } else if (value > variable.range[1]) {
+                                    props.onChange(variable.range[1]);
+                                }
+                            }
 
-                    setTempVal(null);
-                    setInputFocused(false);
-                }}
-                onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                        e.target.blur();
-                    }
-                }}/>
-        </div>
-        <div className="unit">{variable.unit}</div>
-        { mutable ? <div className="dial"
-                onMouseDown={(e) => {
-                    setCurrentlyAdjusting(true);
-                    startDragging(e.target, value, interval, variable.range, e.clientX, e.clientY, setTempVal, (v) => {
-                        if (v !== props.value) {
-                            props.onChange(v);
-                        }
-                        setTempVal(null);
-                        setCurrentlyAdjusting(false);
-                    });
-                }}>
-            <div className="dial-control" style={{transform: "rotate(" + rotation + "deg)"}}></div>
-            <div className="min">{variable.range[0]}</div>
-            <div className="max">{variable.range[1]}</div>
-        </div> : null}
-    </div>;
+                            setTempVal(null);
+                            setInputFocused(false);
+                        }}
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                e.target.blur();
+                            }
+                        }}/>
+                </div>
+                <div className="unit">{variable.unit}</div>
+                { mutable ? <div className="dial"
+                        onMouseDown={(e) => {
+                            setCurrentlyAdjusting(true);
+                            startDragging(e.target, value, interval, variable.range, e.clientX, e.clientY, setTempVal, (v) => {
+                                if (v !== props.value) {
+                                    props.onChange(v);
+                                }
+                                setTempVal(null);
+                                setCurrentlyAdjusting(false);
+                            });
+                        }}>
+                    <div className="dial-control" style={{transform: "rotate(" + rotation + "deg)"}}></div>
+                    <div className="min">{variable.range[0]}</div>
+                    <div className="max">{variable.range[1]}</div>
+                </div> : null}
+            </div>
+    </VariableTooltip>;
 }
 
 export default Control;
