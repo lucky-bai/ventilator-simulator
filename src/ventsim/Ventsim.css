@@ -3,6 +3,8 @@
   box-sizing: border-box;
 }
 
+input { user-select:text; }
+
 .title {
   position: absolute;
   top: 0;
@@ -32,10 +34,18 @@ svg {
   flex-direction: column;
 }
 
-.tabular-view p {
+.tabular-view .footer {
   color: #3b3b3b;
   font-size: 10pt;
   margin: 0;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.tabular-view .footer .advanced-check {
+  margin-left: auto;
 }
 
 .table-container {
@@ -72,6 +82,15 @@ td, th {
 
 td {
   text-align: right;
+}
+
+td.abnormal {
+  background-color: rgb(255, 214, 214);
+}
+
+.current td.abnormal {
+  background-color: red;
+  color: white;
 }
 
 .current {
@@ -113,7 +132,8 @@ tbody tr:hover {
 
 .control .key {
   text-align: left;
-  height: 27px;
+  font-size: 10pt;
+  margin-bottom: 3px;
 }
 
 .control .value {
@@ -125,7 +145,7 @@ tbody tr:hover {
 }
 
 .control .value input {
-  font-size: 16pt;
+  font-size: 20px;
   flex: 1;
   background-color: rgba(255, 255, 255, 0.6);
   border: none;
@@ -173,7 +193,7 @@ tbody tr:hover {
 
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
 }
 
@@ -236,6 +256,29 @@ tbody tr:hover {
 
 .control:hover .dial, .control.dial-sticky .dial {
   height: 60px;
+}
+
+.control:hover .dial.ie_ratio, .control.dial-sticky .dial.ie_ratio {
+  height: 93px;
+}
+
+.dial.ie_ratio {
+  display: flex;
+  flex-direction: column;
+}
+
+.dial.ie_ratio .ratio {
+  padding: 1px;
+  margin: 1px 6px;
+  border: 1px solid #474747;
+  border-radius: 2px;
+  font-size: 9pt;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dial.ie_ratio .ratio:hover {
+  background-color: #1717172c;
 }
 
 .dial .min, .dial .max {
@@ -306,7 +349,7 @@ tbody tr:hover {
   left: -4px;
 }
 
-.variable-name-tooltip[data-show] {
+.variable-name-tooltip[data-show], .variable-name-tooltip.tooltip-show {
   display: block;
 }
 
@@ -339,6 +382,7 @@ tbody tr:hover {
 
 .toolbar .text {
   margin-left: 30px;
+  padding: 5px;
   align-self: center;
 }
 
@@ -378,7 +422,32 @@ tbody tr:hover {
   padding: 5px;
 }
 
+@media (max-width: 1200px) {
+
+  svg {
+    max-height: 40vh;
+  }
+
+  .schematic-container {
+    transform: scale(0.8) translateX(-50px);
+  }
+}
+
 @media (max-width: 900px) {
+
+  .toolbar {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .toolbar .buttons {
+    margin-right: auto;
+    height: 50px;
+  }
+
+  .schematic-container {
+    transform: none;
+  }
 
   .container-container {
     border-top: 1px solid #eeeeee;
@@ -400,5 +469,11 @@ tbody tr:hover {
 
     margin-right: 5px;
     margin-bottom: 5px;
+    align-items: flex-start;
+  }
+
+  svg {
+    max-height: none;
+    height: 400px;
   }
 }

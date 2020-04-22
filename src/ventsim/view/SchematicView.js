@@ -10,7 +10,7 @@ function ControlPortal(props) {
     );
 }
 
-export default class SchematicView extends React.Component {
+export default class SchematicView extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -24,7 +24,7 @@ export default class SchematicView extends React.Component {
 
     render() {
 
-        let svgData = {__html: raw("./schematic.svg")}
+        let svgData = {__html: raw("./schematic2.svg")}
         let state = Object.assign({}, this.props.state);
 
         return <div>
@@ -37,8 +37,7 @@ export default class SchematicView extends React.Component {
                 tooltipRef={this.props.tooltipRef}
                 elm={this.controlElms[n.key]}
                 onChange={(v) => {
-                    state[n.key] = v;
-                    this.props.onChangeInput(state);
+                    this.props.onChangeVariable(n.key, v);
                 }} />)}
 
             <div className="container-container" ref={(e) => {
@@ -80,6 +79,7 @@ export default class SchematicView extends React.Component {
         let descs = document.querySelectorAll("desc");
 
         let elmsToAppend = [];
+
 
         for (var desc of descs) {
             // Create container element

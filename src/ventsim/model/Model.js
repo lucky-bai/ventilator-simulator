@@ -27,6 +27,10 @@ export default class Model {
         return input;
     }
 
+    updateDerivedVariables(input) {
+        return {};
+    }
+
     // input: object with key for each input variable
     // return new state
     changeInput(input) {

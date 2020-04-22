@@ -1,196 +1,286 @@
 {
-    "outputFormat": {
-        "primary": [
-            ["Primary", ["PC", "PEEP0", "RR", "IT", "I:E"]]
-        ],
-        "patient": [
-            ["Secondary", ["Cr", "HCO3", "FGFO", "FGFA", "PEEP"]],
-            ["Patient", ["FGFtot", "VT", "MIP", "FIO2", "PEEPInt", "APEEP", "VCO2", "VO2", "ADS", "AVT", "PaO2", "PaCO2", "CaCO2", "HPlus", "pH"] ]   
-        ]
-    },
-
-    "variables": {
-        "primary": [
-            {
-                "key": "PC",
-                "desc": "Pressure Control Level",
-                "unit": "cmH20",
-                "range": [
-                    0,
-                    70
-                ],
-                "interval": 5,
-                "defaultValue": 40
-            },
-            {
-                "key": "PEEP0",
-                "desc": "Positive End-Expiratory Pressure Level",
-                "range": [
-                    0,
-                    10
-                ],
-                "defaultValue": 5
-            },
-            {
-                "key": "RR",
-                "desc": "Respiratory Rate",
-                "unit": "breaths/min",
-                "range": [
-                    2,
-                    40
-                ],
-                "defaultValue": 18
-            },
-            {
-                "key": "IT",
-                "desc": "Inspiratory Time",
-                "unit": "sec",
-                "range": [
-                    0.5,
-                    10
-                ],
-                "interval": 0.1,
-                "defaultValue": 1
-            },
-            {
-                "key": "I:E",
-                "desc": "Inspiratory Time:Expiratory Time Ratio"
-            }
-        ],
-        "patient": [
-            {
-                "key": "H",
-                "desc": "Height",
-                "unit": "cm",
-                "range": [
-                    100,
-                    250
-                ],
-                "defaultValue": 140
-            },
-            {
-                "key": "W",
-                "desc": "Weight",
-                "unit": "kg",
-                "range": [
-                    40,
-                    120
-                ],
-                "defaultValue": 55
-            },
-            {
-                "key": "Cr",
-                "desc": "Lung Compliance",
-                "interval": 5,
-                "unit": "ml/cmH20",
-                "range": [
-                    10,
-                    70
-                ],
-                "defaultValue": 15
-            },
-            {
-                "key": "PF",
-                "desc": "Ratio of arterial partial pressure of oxygen to fraction of inspired oxygen",
-                "range": [
-                    100,
-                    500
-                ],
-                "defaultValue": 100
-            },
-            {
-                "key": "HCO3",
-                "desc": "Arterial Bicarbonate Concentration",
-                "unit": "nM/L",
-                "range": [
-                    22,
-                    28
-                ],
-                "defaultValue": 24
-            },
-            {
-                "key": "FGFO",
-                "desc": "Fresh Gas Oxygen Flow",
-                "unit": "L/min",
-                "range": [
-                    0,
-                    15
-                ],
-                "defaultValue": 8
-            },
-            {
-                "key": "FGFA",
-                "desc": "Fresh Gas Air Flow",
-                "unit": "L/min",
-                "range": [
-                    0,
-                    15
-                ],
-                "defaultValue": 2
-            },
-            {
-                "key": "PEEP",
-                "desc": "PEEP Valve Setting",
-                "unit": "cmH20",
-                "range": [
-                    0,
-                    25
-                ],
-                "defaultValue": 5
-            },
-            {
-                "key": "pH",
-                "desc": "pH",
-                "range": [
-                    7.3,
-                    7.4
-                ]
-            },
-            {
-                "key": "PaCO2",
-                "desc": "Partial pressure of carbon dioxide",
-                "range": [
-                    35,
-                    45
-                ],
-                "unit": "mmHg"
-            },
-            {
-                "key": "PaO2",
-                "desc": "Partial pressure of oxygen",
-                "range": [
-                    100,
-                    null
-                ],
-                "unit": "mmHg"
-            },
-            {
-                "key": "PIP",
-                "desc": "Peak Inspiratory pressure",
-                "range": [
-                    0,
-                    40
-                ],
-                "unit": "cmH20"
-            },
-            {
-                "key": "APEEP",
-                "desc": "Actual PEEP",
-                "unit": "cmH20"
-            },
-            {
-                "key": "VT",
-                "desc": "Tidal volume",
-                "unit": "ml",
-                "range": [
-                    50,
-                    700
-                ]
-            },
-            {
-                "key": "FiO2",
-                "desc": "Fraction Inspired Oxygen"
-            }
-        ]
-    }
+ "outputFormat": {
+  "primary": [
+   [
+    "Primary Vent",
+    [
+     "PC",
+     "PEEP0",
+     "RR",
+     "IT",
+     "IER"
+    ]
+   ]
+  ],
+  "patient": [
+   [
+    "Patient",
+    [
+     "H",
+     "W",
+     "Cr",
+     "PF",
+     "VT",
+     "FIO2",
+     "PaO2",
+     "PaCO2",
+     "HCO3",
+     "pH"
+    ]
+   ],
+   [
+    "Secondary",
+    [
+     "FGFtot",
+     "PEEP",
+     "APEEP"
+    ]
+   ]
+  ]
+ },
+ "variables": {
+  "primary": [
+   {
+    "key": "PC",
+    "desc": "Pressure Control Level",
+    "unit": "cmH2O",
+    "range": [
+     5,
+     60
+    ],
+    "interval": 5,
+    "defaultValue": 40,
+    "label": "PC"
+   },
+   {
+    "key": "PEEP0",
+    "desc": "Positive End-Expiratory Pressure Level (PEEP0): ",
+    "range": [
+     0,
+     10
+    ],
+    "defaultValue": 5,
+    "label": "PEEP",
+    "unit": "cmH2O"
+   },
+   {
+    "key": "RR",
+    "desc": "Respiratory Rate",
+    "unit": "b/min",
+    "range": [
+     5,
+     35
+    ],
+    "defaultValue": 18,
+    "label": "RR"
+   },
+   {
+    "key": "IT",
+    "desc": "Inspiratory Time (IT): 0.5 \u2013 (0.6/Ttot) s ",
+    "unit": "s",
+    "range": [
+     0.5,
+     10
+    ],
+    "interval": 0.1,
+    "defaultValue": 1,
+    "label": "I Time"
+   },
+   {
+    "key": "IER",
+    "label": "I:E",
+    "desc": "Inspiratory Time:Expiratory Time Ratio (I:E)",
+    "unit": null,
+    "interval": null,
+    "range": [0, null],
+    "defaultValue": 0.43,
+    "controlType": "ie_ratio"
+   }
+  ],
+  "patient": [
+   {
+    "key": "H",
+    "desc": "Height",
+    "unit": "cm",
+    "range": [
+     100,
+     250
+    ],
+    "defaultValue": 140,
+    "label": "Height"
+   },
+   {
+    "key": "W",
+    "desc": "Weight",
+    "unit": "Kg",
+    "range": [
+     40,
+     120
+    ],
+    "defaultValue": 55,
+    "label": "Weight"
+   },
+   {
+    "key": "Cr",
+    "desc": "Lung Compliance",
+    "interval": 5,
+    "unit": "ml/cmH2O",
+    "range": [
+     10,
+     70
+    ],
+    "defaultValue": 15,
+    "label": "Compliance"
+   },
+   {
+    "key": "PF",
+    "desc": "Arterial PaO2:FiO2 ratio",
+    "range": [
+     100,
+     500
+    ],
+    "defaultValue": 100,
+    "label": "PaO2:FiO2",
+    "unit": null
+   },
+   {
+    "key": "HCO3",
+    "desc": "Arterial bicarbonate concentration",
+    "unit": "mM/L",
+    "range": [
+     20,
+     28
+    ],
+    "defaultValue": 24,
+    "label": "HCO3"
+   },
+   {
+    "key": "FGFO",
+    "desc": "Fresh Gas Flow \u2013 Oxygen",
+    "unit": "L/min",
+    "range": [
+     0,
+     15
+    ],
+    "defaultValue": 8,
+    "label": "Oxygen"
+   },
+   {
+    "key": "FGFA",
+    "desc": "Fresh Gas Flow \u2013 Air",
+    "unit": "L/min",
+    "range": [
+     0,
+     15
+    ],
+    "defaultValue": 2,
+    "label": "Air"
+   },
+   {
+    "key": "PEEP",
+    "desc": "PEEP Valve Setting on Secondary Circuit",
+    "unit": "cmH2O",
+    "range": [
+     0,
+     25
+    ],
+    "defaultValue": 5,
+    "label": "PEEP"
+   },
+   {
+    "key": "pH",
+    "desc": "Arterial blood acidity",
+    "range": [
+     7.3,
+     7.4
+    ],
+    "label": "pH",
+    "unit": null
+   },
+   {
+    "key": "PaCO2",
+    "desc": "Arterial partial pressure of CO2",
+    "range": [
+     30,
+     50
+    ],
+    "unit": "mmHg",
+    "label": "PaCO2"
+   },
+   {
+    "key": "PaO2",
+    "desc": "Arterial partial pressure of Oxygen",
+    "range": [
+     80,
+     200
+    ],
+    "unit": "mmHg",
+    "label": "PaO2"
+   },
+   {
+    "key": "PIP",
+    "desc": "Peak Inspiratory pressure ",
+    "range": [
+     0,
+     40
+    ],
+    "unit": "cmH2O",
+    "label": "PIP"
+   },
+   {
+    "key": "APEEP",
+    "desc": "Actual PEEP at Patient Y",
+    "unit": "cmH2O",
+    "label": "Total PEEP"
+   },
+   {
+    "key": "VT",
+    "desc": "Patient Tidal Volume",
+    "unit": "ml",
+    "range": [
+     4,
+     8
+    ],
+    "rangePerKgOfWeight": true,
+    "label": "VT"
+   },
+   {
+    "key": "FGFtot",
+    "label": "FGF Total",
+    "desc": "FGF Total",
+    "unit": "L/min",
+    "range": [ 0, 30 ]
+   },
+   {
+    "key": "MIP",
+    "label": "MIP",
+    "desc": "Mean Inspiratory Pressure",
+    "unit": "cmH2O"
+   },
+   {
+    "key": "FIO2",
+    "label": "FiO2",
+    "desc": "Fraction of Inspired Oxygen ",
+    "unit": null
+   },
+   {
+    "key": "PEEPInt",
+    "label": "FGF PEEP",
+    "desc": "Intrinsic PEEP from FGF",
+    "unit": "cmH2O"
+   },
+   {
+    "key": "VCO2",
+    "label": "VCO2",
+    "desc": "CO2 Production rate",
+    "unit": "ml/s"
+   },
+   {
+    "key": "AVT",
+    "label": "Alveolar VT",
+    "desc": "Alveolar Tidal Volume",
+    "unit": "ml"
+   }
+  ]
+ }
 }

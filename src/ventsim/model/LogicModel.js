@@ -24,6 +24,21 @@ export default class LogicModel extends Model {
         return variables;
     }
 
+    updateDerivedVariables(updatedKey, state) {
+        var update = {};
+
+        let Ttot = 60 / state["RR"];
+
+        if (updatedKey == "IT" || updatedKey == "RR") {
+            update["IER"] = state["IT"] / (Ttot - state["IT"]);
+        } else if (updatedKey == "IER") {
+
+            update["IT"] = (state["IER"] * Ttot) / (1 + state["IER"]);
+        }
+
+        return update;
+    }
+
     changeInput(input) {
 
         // Change input into logic.js format

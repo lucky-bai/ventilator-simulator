@@ -3,7 +3,7 @@ import './Ventsim.css';
 import View from './view/View';
 import LogicModel from './model/LogicModel';
 
-export default class Ventsim extends React.Component {
+export default class Ventsim extends React.PureComponent {
     constructor(props) {
         super(props);
 
@@ -56,6 +56,13 @@ export default class Ventsim extends React.Component {
 
                 onCommitInput={this.commitInput.bind(this)}
                 onReset={this.reset.bind(this)}
+                onChangeVariable={(key, value) => {
+                    let state = Object.assign({}, this.state.current);
+                    state[key] = value;
+                    let update = this.model.updateDerivedVariables(key, state);
+                    Object.assign(state, update);
+                    this.changeInput(state, false);
+                }}
                 onChangeInput={(input, commitImmediately) => {
                     this.changeInput(input, commitImmediately);
                 }} />

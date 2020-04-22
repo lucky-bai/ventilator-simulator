@@ -1,0 +1,40 @@
+"Simple Mode 
+Chart Display","Expert Mode 
+Chart Display",Output Chart Group,Display Name,Input Display Group,Reference #,Variable,description,Shared Value,Value Pt 1,Value Pt 2,Unit,Category,Normal range,Default value,
+1,1,Patient #,Height,1.0.; 2.0. Patient Characteristics,1.1.1,H,Height,,140.00,180.00,cm,Patient Characteristics,,,
+1,1,Patient #,Weight,1.0.; 2.0. Patient Characteristics,1.1.2,W,Weight,,55.00,70.00,Kg,Patient Characteristics,,,
+1,1,Patient #,Compliance,1.0.; 2.0. Patient Characteristics,1.1.3,Cr,Lung Compliance,,15.00,50.00,ml/cmH2O,Patient Characteristics,,,
+1,1,Patient #,PaO2:FiO2,1.0.; 2.0. Patient Characteristics,1.1.4,PF,Arterial PaO2:FiO2 ratio,,100.00,300.00,,Patient Characteristics,> 300,,
+0,0,,,,,Pbar,Barometric Pressure,760.00,,,mmHg,Environmental Parameter Setting,,,
+0,0,,,,,Pdry,Barometric Pressure – vapour pressure,713.00,,,mmHg,Environmental Parameter Calculated,,,
+0,0,,,,,PIO2,Partial Pressure of Inspired Oxygen in Air,212.32,,,mmHg,Environmental Parameter Calculated,,,
+,,,,,,,,,,,,,,,
+1,1,Primary Vent,PC,0. Primary Ventilator Setting,1.2.1.1,PC,Pressure Control Level,40.00,,,cmH2O,Primary Ventilator Settings,5-60,60,
+1,1,Primary Vent,PEEP,0. Primary Ventilator Setting,1.2.1.2,PEEP0,Positive End-Expiratory Pressure Level (PEEP0): ,5.00,,,cmH2O,Primary Ventilator Settings,0,0,Should always be set to 0 and somehow *gently* highlighted. Setting this above zero is a common error.
+1,1,Primary Vent,RR,0. Primary Ventilator Setting,1.2.1.3,RR,Respiratory Rate,18.00,,,b/min,Primary Ventilator Settings,5-35,15,
+1,1,Primary Vent,I Time,0. Primary Ventilator Setting,1.2.1.4,IT,Inspiratory Time (IT): 0.5 – (0.6/Ttot) s ,1.00,,,s,Primary Ventilator Settings,,Calculated based on I:E,(That is inspiration should be no more than 60% of the respiratory cycle)
+1,1,Primary Vent,I:E,0. Primary Ventilator Setting,1.2.1.5,IER,Inspiratory Time:Expiratory Time Ratio (I:E): ,0.43,,,unitless,Primary Ventilator Calculated,2:1 – 1:4,“1:2”,
+0,0,,,,,VT0,Tidal volume of primary ventilator,500.00,,,ml,Primary Ventilator Calculated,,,Not relevant
+0,0,,,,,Ttot,Duration of respiratory cycle,3.33,,,s,Primary Ventilator Calculated,,,
+,,,,,,,,,,,,,,,
+0,1,Secondary #,Oxygen,1.1.; 2.1. Secondary circuit settings,1.2.2.1,FGFO,Fresh Gas Flow – Oxygen,,8.00,1.00,L/min,Secondary Circuit Settings,0-15,2,
+0,1,Secondary #,Air,1.1.; 2.1. Secondary circuit settings,1.2.2.2,FGFA,Fresh Gas Flow – Air,,2.00,8.00,L/min,Secondary Circuit Settings,0-15,3,
+1,1,Secondary #,FGF Total,,,FGFtot,FGF Total,,10.00,9.00,L/min,Secondary Circuit Calculated,0-30,5,
+0,1,Patient #,PIP,,2.2.1,PIP,Peak Inspiratory pressure ,,74.07,20.00,cmH2O,Secondary Circuit Calculated,< 40,,range 0-40 cm H2O; Assumed to be twice MIP n:  circuit includes a pop-of valve at 40 so pressure can never go above that; calculating this is the challenge
+1,1,Patient #,VT,,2.2.3,VT,Patient Tidal Volume,,555.56,500.00,ml,Secondary Circuit Calculated,4-8 ml/kg of weight,,"This is only related to primary ventilator tidal volume when the reservoir for each patient is not completely emptied with each inspiration. When, as is most common, it is emptied, it is equivalent to the volume of the fille bag at end expiration during which time the bag is filling from the FGF."
+0,1,Patient #,MIP,,,MIP,Mean Inspiratory Pressure,,37.04,10.00,cmH2O,Secondary Circuit Calculated,,,
+1,1,Patient #,FiO2,,2.2.4,FIO2,Fraction of Inspired Oxygen ,,0.84,0.30,unitless,Secondary Circuit Calculated,,,
+1,1,Secondary #,PEEP,1.1.; 2.1. Secondary circuit settings,1.2.2.3,PEEP,PEEP Valve Setting on Secondary Circuit,,5.00,5.00,cmH2O,Secondary Circuit Settings,0-25,5,
+0,1,Secondary #,FGF PEEP,,,PEEPInt,Intrinsic PEEP from FGF,,4.80,4.20,cmH2O,Secondary Circuit Calculated,,,Intrinsic PEEP (from FGF) Crude model: PEEPInt[i] = 0 if FGFtot[i] < 7LPM; 3 + (FGFtot[i] – 7)*0.6
+1,1,Secondary #,Total PEEP,,2.2.2,APEEP,Actual PEEP at Patient Y,,14.80,14.20,cmH2O,Secondary Circuit Calculated,0-25,,APEEP[i] = PEEP0 + PEEPInt[i] + PEEP[i]
+0,1,Patient #,VCO2,,3.2,VCO2,CO2 Production rate,,4.73,5.09,ml/s,Patient Characteristics Calculated,,,
+0,0,,,,,VO2,Oxygen Consumption,,5.91,6.36,ml/s,Patient Characteristics Calculated,,,
+0,0,,,,3.1.1,ADS,Anatomic Deadspace,,122.22,155.56,,Patient Characteristics Calculated,,,
+0,0,,,,3.1.2,CC,Secondary Circuit Compliance,,4.00,4.00,ml/cmH2O,Secondary Circuit Settings,,,Can disregard. For 22 mm tubing the volume lost due to gas compression is approx 3.6 ml per cmH2O per cm Tubing
+0,1,Patient #,Alveolar VT,,3.1.3,AVT,Alveolar Tidal Volume,,433.33,344.44,ml,Patient Characteristics Calculated,,,Prev “VAP” = VT[i] – ( MIP[i]/CC ) - ADS[i]
+1,1,Patient #,PaO2,,2.1.3,PaO2,Arterial partial pressure of Oxygen,,84.20,89.33,mmHg,Patient Characteristics Calculated,80-200,,
+1,1,Patient #,PaCO2,,2.1.2,PaCO2,Arterial partial pressure of CO2,,25.93,35.13,mmHg,Patient Characteristics Calculated,30-50,,
+0,0,,,,,CaCO2,Arterial concentration of CO2,,0.41,0.47,ml/ml,Patient Characteristics Calculated,,,
+1,1,Patient #,HCO3,1.0.; 2.0. Patient Characteristics,2.1.4,HCO3,Arterial bicarbonate concentration,,24.00,24.00,mM/L,Patient Characteristics Setting,20-28,24,
+0,0,,,,,[H+],Arterial hydrogen ion concentration,,25.93,35.13,nM/L,Patient Characteristics Calculated,,,
+1,1,Patient #,pH,,2.1.1,pH,Arterial blood acidity,,7.59,7.45,,Patient Characteristics Calculated,7.3-7.4,,
