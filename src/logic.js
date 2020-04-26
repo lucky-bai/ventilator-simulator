@@ -61,13 +61,12 @@ export function calc(M, P1, P2) {
     P.FIO2 = (P.FGFA * 0.21 + P.FGFO) / P.FGFtot;
 
     // intrinsic PEEP from FGF
-    P.PEEPInt = 1;
-//    if(P.FGFTot < 7){
-//      P.PIPInt = 0;
-//    }
-//    else{
-//      P.PIPInt = 3 + (P.FGFtot - 7) * 0.6;
-//    }
+    if(P.FGFTot < 7){
+      P.PEEPInt = 0;
+    }
+    else{
+      P.PEEPInt = 3 + (P.FGFtot - 7) * 0.6;
+    }
 
     // actual PEEP
     P.APEEP = M.PEEP0 + P.PEEP + P.PEEPInt;
@@ -135,4 +134,4 @@ function test_calc(){
   console.log(outputs);
 }
 
-test_calc();
+//test_calc();
