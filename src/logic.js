@@ -61,7 +61,7 @@ export function calc(M, P1, P2) {
     P.FIO2 = (P.FGFA * 0.21 + P.FGFO) / P.FGFtot;
 
     // intrinsic PEEP from FGF
-    if(P.FGFTot < 7){
+    if(P.FGFtot < 7){
       P.PEEPInt = 0;
     }
     else{
