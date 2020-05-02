@@ -1,6 +1,7 @@
 import Model from './Model';
 import Variable from './Variable';
 import { calc } from '../../logic';
+import { optimize } from '../../solver';
 import config from '../../config.json';
 
 export default class LogicModel extends Model {
@@ -39,7 +40,9 @@ export default class LogicModel extends Model {
         return update;
     }
 
-    changeInput(input) {
+    changeInput(input, requestSolve) {
+        // If requestSolve, run the optimizer and change the input to the suggested
+        // values. Otherwise, just change the output.
 
         // Change input into logic.js format
         var M = {}, P1 = {}, P2 = {};
@@ -61,6 +64,10 @@ export default class LogicModel extends Model {
 
         // Calculate
         let outputs = calc(M, P1, P2);
+        if(requestSolve){
+            outputs = optimize(M, P1, P2, 20000);
+        }
+
         var outputsFlattened = {...input};
         for (var out of Object.keys(outputs.M)) { 
             outputsFlattened[out] = outputs.M[out];

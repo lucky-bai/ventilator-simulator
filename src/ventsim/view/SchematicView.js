@@ -48,6 +48,7 @@ export default class SchematicView extends React.PureComponent {
             <div className="toolbar">
                 <div className="text">Change the inputs above, then click the "Simulate" button to see results below.</div>
                 <div className="buttons">
+                    <div className="request-solve" onClick={() => this.props.onRequestSolve()}><i className=""></i> Suggest Settings</div>
                     <div className="simulate" onClick={() => this.props.onCommitInput()}><i className="ri-arrow-down-fill"></i> Simulate</div>
                     <div className="reset" onClick={() => this.props.onReset()}><i className="ri-restart-line"></i> Reset</div>
                 </div>

@@ -32,7 +32,18 @@ export default class Ventsim extends React.PureComponent {
     commitInput(input) {
         input = input || this.state.current;
 
-        let newState = this.model.changeInput(input);
+        let newState = this.model.changeInput(input, false);
+
+        this.setState({
+            current: newState,
+            history: [...this.state.history, newState]
+        });
+    }
+
+    requestSolve(input) {
+        input = input || this.state.current;
+
+        let newState = this.model.changeInput(input, true);
 
         this.setState({
             current: newState,
@@ -54,6 +65,7 @@ export default class Ventsim extends React.PureComponent {
                 state={this.state.current}
                 history={this.state.history}
 
+                onRequestSolve={this.requestSolve.bind(this)}
                 onCommitInput={this.commitInput.bind(this)}
                 onReset={this.reset.bind(this)}
                 onChangeVariable={(key, value) => {

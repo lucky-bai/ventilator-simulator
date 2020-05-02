@@ -28,7 +28,7 @@ function rand_range(rng, lo, hi) {
   return Math.floor(lo + rng() * (hi - lo));
 }
 
-function optimize(M, P1, P2, num_iters) {
+export function optimize(M, P1, P2, num_iters) {
   var rng = seedrandom(12345);
 
   var bestM = M;
@@ -55,7 +55,7 @@ function optimize(M, P1, P2, num_iters) {
       bestP2 = tempP2;
     }
   }
-  return {bestM, bestP1, bestP2, bestObjective};
+  return {M: bestM, P1: bestP1, P2: bestP2};
 }
 
 function test_solve(){

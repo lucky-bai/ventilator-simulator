@@ -398,6 +398,10 @@ tbody tr:hover {
   color: white;
 }
 
+.toolbar .buttons .request-solve {
+  background-color: rgb(224, 224, 235);
+}
+
 .toolbar .buttons div i {
   margin-bottom: -3px;
   margin-right: 5px;
